@@ -1,0 +1,25 @@
+#!/bin/sh
+
+filename="$@"
+bname=$(basename "$filename")
+dname=$(dirname "$filename")
+destdir1=${bname%.*}
+destdir2=${destdir1%.*}
+destdir=${destdir1}
+case "$bname" in
+	*.tar.gz | *.tar.bz2 ) destdir=${destdir2} ;;
+esac
+
+[ -w "$dname" ]  || dname=${HOME}
+
+if [ ! -d "$destdir" ]; then
+    cd "$dname"
+    mkdir "$destdir"
+    cd "$destdir"
+
+    case "$bname" in
+        *.tar.bz2 | *.tbz | *.tb2 | *.tbz2) xterm -e tar xvjf "../$bname" ;;
+        *.tar.gz | *.tgz) xterm -e tar xvzf "../$bname" ;;
+        * ) xterm -e 7z x "../$bname" ;;
+    esac
+fi

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+date=`date +%y%m%d`
+
+name=backup-$date.tgz
+
+cd ~
+
+if [ ! -f /media/sdb1/$name ];then
+
+tar czf /media/sdb1/$name ./Backup/Dotfiles ./Backup/Firefox ./Backup/Tips ./Scripts
+
+fi

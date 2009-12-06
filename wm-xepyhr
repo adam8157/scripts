@@ -1,0 +1,4 @@
+#!/bin/sh
+Xephyr -ac -br -noreset -screen 800x500 :1 &
+sleep 1
+DISPLAY=:1.0 fvwm
