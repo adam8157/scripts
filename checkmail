@@ -9,6 +9,7 @@ https://${gmail_login}:${gmail_password}@mail.google.com/mail/feed/atom --no-che
 
 if [ -z "$mails" ];then
     notify-send "Mails Check Error"
+    exit
 fi
 
 mails="$(echo "$mails" | egrep 'fullcount|title' \
