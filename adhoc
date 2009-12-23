@@ -1,0 +1,14 @@
+#!/bin/sh
+
+#starts the ad hoc server
+ifconfig wlan0 down
+iwconfig wlan0 mode ad-hoc
+iwconfig wlan0 key s:adhoc
+iwconfig wlan0 essid 'adam'
+ifconfig wlan0 10.0.0.1 up
+
+#forwards the ad hoc network to the router
+iptables -A FORWARD -i wlan0 -o eth0 -s 10.0.0.0/24 -m state --state NEW -j ACCEPT
+iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A POSTROUTING -t nat -j MASQUERADE
+echo "1" > /proc/sys/net/ipv4/ip_forward
