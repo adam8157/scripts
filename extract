@@ -1,25 +1,41 @@
 #!/bin/sh
 
-filename="$@"
-bname=$(basename "$filename")
-dname=$(dirname "$filename")
-destdir1=${bname%.*}
-destdir2=${destdir1%.*}
-destdir=${destdir1}
+case "$TERM" in
+	xterm* | screen  ) head="" ;;
+	* ) head="xterm -e" ;;
+esac
+
+for args in $@
+
+do
+
+fname=$(readlink -f "$args")
+bname=$(basename "$fname")
+dname=$(dirname "$fname")
+dest1st=${bname%.*}
+dest2nd=${dest1st%.*}
+destdir=${dest1st}
+
 case "$bname" in
-	*.tar.gz | *.tar.bz2 ) destdir=${destdir2} ;;
+	*.tar.gz | *.tar.bz2 ) destdir=${dest2nd} ;;
 esac
 
 [ -w "$dname" ]  || dname=${HOME}
 
 if [ ! -d "$destdir" ]; then
+
     cd "$dname"
     mkdir "$destdir"
     cd "$destdir"
 
     case "$bname" in
-        *.tar.bz2 | *.tbz | *.tb2 | *.tbz2) xterm -e tar xvjf "../$bname" ;;
-        *.tar.gz | *.tgz) xterm -e tar xvzf "../$bname" ;;
-        * ) xterm -e 7z x "../$bname" ;;
+        *.tar.bz2 | *.tbz | *.tb2 | *.tbz2) $head tar xvjf "$fname" ;;
+        *.tar.gz | *.tgz) $head tar xvzf "$fname" ;;
+        * ) $head 7z x "$fname" ;;
     esac
+
 fi
+
+    cd "$dname"
+
+done
