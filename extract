@@ -20,9 +20,17 @@ case "$bname" in
 	*.tar.gz | *.tar.bz2 ) destdir=${dest2nd} ;;
 esac
 
-[ -w "$dname" ]  || dname=${HOME}
+if [ ! -w "$dname" ]; then
 
-if [ ! -d "$destdir" ]; then
+    $head "echo Permission denied && sleep 2"
+    exit 1
+
+elif [ -d "$dname/$destdir" ]; then
+
+    $head "echo Directory already exists && sleep 2"
+    exit 1
+
+else
 
     cd "$dname"
     mkdir "$destdir"
@@ -39,3 +47,5 @@ fi
     cd "$dname"
 
 done
+
+exit 0
