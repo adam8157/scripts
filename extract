@@ -5,7 +5,7 @@ case "$TERM" in
 	* ) head="xterm -e" ;;
 esac
 
-for args in $@
+for args in "$@"
 
 do
 
