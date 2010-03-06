@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [[ "$1" =~ "New:" ]];then
+    notify-send "Get new mails"
+    printf "\ekmutt: new\e\\" > /dev/tty
+else
+    printf "\ekmutt\e\\" > /dev/tty
+fi
+
+echo "$1"

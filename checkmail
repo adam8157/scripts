@@ -1,6 +1,7 @@
 #!/bin/sh
 
-source .cmpass
+#gmail_login="name"
+#gmail_password="pass"
 
 count=0
 
