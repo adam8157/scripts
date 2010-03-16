@@ -17,7 +17,7 @@ dest2nd=${dest1st%.*}
 destdir=${dest1st}
 
 case "$bname" in
-	*.tar.gz | *.tar.bz2 ) destdir=${dest2nd} ;;
+	*.tar.gz | *.tar.bz2 | *.tar.xz ) destdir=${dest2nd} ;;
 esac
 
 if [ ! -w "$dname" ]; then
@@ -39,6 +39,7 @@ else
     case "$bname" in
         *.tar.bz2 | *.tbz | *.tb2 | *.tbz2) $head tar xvjf "$fname" ;;
         *.tar.gz | *.tgz) $head tar xvzf "$fname" ;;
+        *.tar.xz | *.txz) $head tar xvJf "$fname" ;;
         * ) $head 7z x "$fname" ;;
     esac
 
