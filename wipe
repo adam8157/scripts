@@ -1,11 +1,13 @@
 #!/bin/sh
 mv -f ~/.adobe ~/Trash;
+mv -f ~/.bash_history ~/Trash;
 mv -f ~/.cache ~/Trash;
 mv -f ~/.covers ~/Trash;
 mv -f ~/.dbus ~/Trash;
 mv -f ~/.fontconfig ~/Trash;
 mv -f ~/.gconfd ~/Trash;
 mv -f ~/.gegl-0.0 ~/Trash;
+mv -f ~/.gimp-2.6 ~/Trash;
 mv -f ~/.gnome2 ~/Trash;
 mv -f ~/.gstreamer-0.10 ~/Trash;
 mv -f ~/.gvfs ~/Trash;
@@ -19,6 +21,10 @@ mv -f ~/.esd_auth ~/Trash;
 mv -f ~/.ICEauthority ~/Trash;
 mv -f ~/.htoprc ~/Trash;
 mv -f ~/.lesshst ~/Trash;
+mv -f ~/.openoffice.org ~/Trash;
 mv -f ~/.pulse-cookie ~/Trash;
 mv -f ~/.recently-used ~/Trash;
 mv -f ~/.recently-used.xbel ~/Trash;
+mv -f ~/.viminfo ~/Trash;
+mv -f ~/.vimperator ~/Trash;
+mv -f ~/.w3m ~/Trash;
