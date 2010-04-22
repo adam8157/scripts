@@ -11,7 +11,8 @@ YOURS=${11}
 
 # Call the merge command (change the following line to make sense for
 # your merge program).
-$DIFF3 --older $OLDER --mine $MINE --yours $YOURS
+#$DIFF3 --older $OLDER --mine $MINE --yours $YOURS
+$DIFF3 $OLDER $MINE $YOURS
 
 # After performing the merge, this script needs to print the contents
 # of the merged file to stdout.  Do that in whatever way you see fit.
