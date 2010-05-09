@@ -14,8 +14,10 @@ then
     then
         echo GFW is being fucked
         exit 1
+    else
+        ssh -qTfnN -D $port $user'@'$host
+        exit 0
     fi
-    ssh -qTfnN -D $port $user'@'$host
 
 elif [[ "$#" = "1" && "$1" = "stop" ]]
 then
