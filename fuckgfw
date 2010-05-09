@@ -1,0 +1,30 @@
+#!/bin/sh
+
+#port=
+#user=
+#host=
+source hostinfo
+
+sname=$(basename "$0")
+
+if [[ "$#" == "1" && "$1" == "start" ]]
+then
+    lock=$(ps -A -F | grep qTfnN | grep $user'@'$host | grep -v grep | awk '{print $2}')
+    if [ -n $lock ]
+    then
+        echo GFW is being fucked
+        exit 1
+    fi
+    ssh -qTfnN -D $port $user'@'$host
+
+elif [[ "$#" == "1" && "$1" == "stop" ]]
+then
+    lock=$(ps -A -F | grep qTfnN | grep $user'@'$host | grep -v grep | awk '{print $2}')
+    kill -9 $lock
+
+else
+    echo "Usage: $sname start | stop"
+    exit 1
+fi
+
+exit 0
