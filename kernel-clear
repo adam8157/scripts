@@ -1,0 +1,42 @@
+#!/bin/sh
+
+CURRENT="`uname -r | awk -F"-" '{print $1"-"$2}'`"
+HEADERS=""
+IMAGES=""
+ARCH="amd64"
+
+for HEADER in `dpkg --get-selections | grep ^linux-headers | grep -v "${ARCH}" | awk -F"-" '{print $3"-"$4}'`
+do
+    if [[ "$CURRENT" < "$HEADER" ]]
+    then
+        echo "The running kernel is not the newest. $CURRENT < $HEADER"
+        exit 1
+    else
+        [[ "$CURRENT" != "$HEADER" ]] && {
+            HEADERS="${HEADERS} linux-headers-${HEADER}-${ARCH} linux-headers-${HEADER}-${ARCH}-common"
+            IMAGE="`dpkg --get-selections | grep ^linux-image | grep "${HEADER}" | awk '{print $1}'`"
+            IMAGES="${IMAGES} $IMAGE"
+        }
+    fi
+done
+ 
+if [[ -z "$HEADERS" ]]
+then
+    echo "There is no old kernel or headers need to be cleaned."
+    exit 0
+fi
+
+echo
+echo ------------------------------------
+echo "$IMAGES $HEADERS"
+echo ------------------------------------
+echo 
+
+read -p "Really wanna remove these packages? [y/N] " REPLY
+
+case $REPLY in
+    y | Y )
+        sh -c "sudo apt-get purge $IMAGES $HEADERS" ;;
+    * )
+        echo "The operation is cancelled." ;;
+esac
