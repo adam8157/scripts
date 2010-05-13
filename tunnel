@@ -8,30 +8,30 @@ source .hostinfo
 name=$(basename "$0")
 lock=$(ps -A -F | grep qTfnN | grep $user'@'$host | grep -v grep | awk '{print $2}')
 
-if [[ "$#" = "1" && "$1" = "start" ]]
+if [[ "$#" = "1" && "$1" = "on" ]]
 then
     if [ -n "$lock" ]
     then
-        echo GFW is being fucked
+        echo Tunnel is already on.
         exit 1
     else
         ssh -qTfnN -D $port $user'@'$host
         exit 0
     fi
 
-elif [[ "$#" = "1" && "$1" = "stop" ]]
+elif [[ "$#" = "1" && "$1" = "off" ]]
 then
     if [ -n "$lock" ]
     then
-        kill -9 $lock
+        kill $lock
         exit 0
     else
-        echo GFW is not being fucked
+        echo Tunnel is already off.
         exit 1
     fi
 
 else
-    echo "Usage: $name start | stop"
+    echo "Usage: $name on | off"
     exit 1
 fi
 
