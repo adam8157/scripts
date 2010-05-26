@@ -4,10 +4,8 @@ date=`date +%y%m%d`
 
 name=backup-$date.tgz
 
-cd ~
-
 if [ ! -f /media/sdb1/$name ];then
 
-tar czf /media/sdb1/$name ./Backup/Dotfiles ./Backup/Firefox ./Documents/Tips ./Scripts
+tar czf /media/sdb1/$name -C ~ Scripts -C ~/Backup Dotfiles Firefox -C ~/Documents Tips 
 
 fi
