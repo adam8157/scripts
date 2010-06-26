@@ -11,6 +11,7 @@ mv -f ~/.gimp-2.6 ~/Trash;
 mv -f ~/.gnome2 ~/Trash;
 mv -f ~/.gstreamer-0.10 ~/Trash;
 mv -f ~/.gvfs ~/Trash;
+mv -f ~/.java ~/Trash;
 mv -f ~/.local ~/Trash;
 mv -f ~/.macromedia ~/Trash;
 mv -f ~/.pulse ~/Trash;
