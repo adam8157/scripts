@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [[ "$1" =~ "New:" ]];then
+if [[ "$1" =~ "All Mail" && "$1" =~ "New:" ]];then
     notify-send "Get new mails"
     printf "\ekmutt: new\e\\" > /dev/tty
 else
