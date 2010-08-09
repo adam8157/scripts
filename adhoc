@@ -1,14 +1,64 @@
 #!/bin/sh
 
-#starts the ad hoc server
-sudo ifconfig wlan0 down
-sudo iwconfig wlan0 mode ad-hoc
-sudo iwconfig wlan0 key s:adhoc
-sudo iwconfig wlan0 essid 'adam'
-sudo ifconfig wlan0 10.0.0.1 up
+eth=eth0
+wlan=wlan0
 
-#forwards the ad hoc network to the router
-sudo iptables -A FORWARD -i wlan0 -o eth0 -s 10.0.0.0/24 -m state --state NEW -j ACCEPT
-sudo iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
-sudo iptables -A POSTROUTING -t nat -j MASQUERADE
-sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
+key=adhoc
+essid=adam
+
+lock=/tmp/adhoc_lock
+name=$(basename "$0")
+
+if [[ "$#" = "1" && "$1" = "on" ]]
+then
+    if [ -f "$lock" ]
+    then
+        echo Adhoc network is already on.
+        exit 1
+    else
+        #starts the ad hoc server
+        sudo ifconfig $wlan down
+        sudo iwconfig $wlan mode ad-hoc
+        sudo iwconfig $wlan key s:$key
+        sudo iwconfig $wlan essid "$essid"
+        sudo ifconfig $wlan 10.0.0.1 up
+
+        #forwards the ad hoc network to the router
+        sudo iptables -A FORWARD -i $wlan -o $eth -s 10.0.0.0/24 -m state --state NEW -j ACCEPT
+        sudo iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
+        sudo iptables -A POSTROUTING -t nat -j MASQUERADE
+        sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
+        sudo touch $lock
+        echo Adhoc network is turned on.
+        exit 0
+    fi
+
+elif [[ "$#" = "1" && "$1" = "off" ]]
+then
+    if [ -f "$lock" ]
+    then
+        #stop the ad hoc server
+        sudo ifconfig $wlan down
+        sudo iwconfig $wlan mode managed
+        sudo iwconfig $wlan key off
+        sudo iwconfig $wlan essid any
+
+        #delete added iptables rules
+        sudo iptables -D FORWARD -i $wlan -o $eth -s 10.0.0.0/24 -m state --state NEW -j ACCEPT
+        sudo iptables -D FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
+        sudo iptables -D POSTROUTING -t nat -j MASQUERADE
+        sudo sh -c "echo 0 > /proc/sys/net/ipv4/ip_forward"
+        sudo rm -f $lock
+        echo Adhoc network is turned off.
+        exit 0
+    else
+        echo Adhoc network is already off.
+        exit 1
+    fi
+
+else
+    echo "Usage: $name on | off"
+    exit 1
+fi
+
+exit 0
