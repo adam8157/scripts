@@ -16,6 +16,7 @@ then
         exit 1
     else
         ssh -qTfnN -D $port $user'@'$host
+        echo Tunnel is turned on.
         exit 0
     fi
 
@@ -24,6 +25,7 @@ then
     if [ -n "$lock" ]
     then
         kill $lock
+        echo Tunnel is turned off.
         exit 0
     else
         echo Tunnel is already off.
