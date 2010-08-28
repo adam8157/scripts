@@ -6,6 +6,6 @@ name=backup-$date.tgz
 
 if [ ! -f /media/sdb1/$name ];then
 
-tar czf /media/sdb1/$name -C ~ Scripts -C ~/Backup Dotfiles Firefox -C ~/Documents Tips 
+tar czf /media/sdb1/$name -C ~ Scripts -C ~/Backup Dotfiles Firefox -C ~/Documents Tips Note Todo
 
 fi
