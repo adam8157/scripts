@@ -1,10 +1,18 @@
 #!/bin/sh
 
+lock=/tmp/mutt-filter_lock
+
 if [[ "$1" =~ "All Mail" && "$1" =~ "New:" ]];then
-    notify-send "Get new mails"
-    printf "\ekmutt: new\e\\" > /dev/tty
+    if [ -f "$lock" ];then
+        printf "\ekmutt: new\e\\" > /dev/tty
+    else
+        notify-send "Get new mails"
+        printf "\ekmutt: new\e\\" > /dev/tty
+        touch $lock
+    fi
 else
     printf "\ekmutt\e\\" > /dev/tty
+    rm -f $lock
 fi
 
 echo "$1"
