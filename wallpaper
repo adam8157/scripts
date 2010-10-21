@@ -1,4 +1,5 @@
 #!/bin/sh
 
 ln -sf "$@" ~/.Wallpaper
+
 hsetroot -fill ~/.Wallpaper
