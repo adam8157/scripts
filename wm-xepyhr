@@ -1,4 +1,7 @@
 #!/bin/sh
+
 Xephyr -ac -br -noreset -screen 1200x750 :1 &
+
 sleep 1
+
 DISPLAY=:1.0 awesome
