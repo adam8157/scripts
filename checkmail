@@ -1,9 +1,8 @@
 #!/bin/sh
 
+count=0
 #gmail_login="name"
 #gmail_password="pass"
-
-count=0
 
 mails="$(wget --secure-protocol=TLSv1 --timeout=3 -t 1 -q -O - \
 https://${gmail_login}:${gmail_password}@mail.google.com/mail/feed/atom --no-check-certificate)"
@@ -23,3 +22,5 @@ mails="$(echo "$mails" | sed -e '2,$s/^/\* /' | sed -n '2,$p')"
 if [ "$count" -gt "0" ];then
     notify-send "Get $count new mails" "$mails"
 fi
+
+exit 0

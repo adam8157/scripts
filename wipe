@@ -30,3 +30,5 @@ mv -f ~/.recently-used.xbel ~/Trash
 mv -f ~/.viminfo ~/Trash
 mv -f ~/.vimperator ~/Trash
 mv -f ~/.w3m ~/Trash
+
+exit 0

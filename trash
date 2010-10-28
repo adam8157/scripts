@@ -1,3 +1,5 @@
 #!/bin/sh
 
 mv -f "$@" ~/Trash/
+
+exit 0

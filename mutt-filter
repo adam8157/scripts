@@ -16,3 +16,5 @@ else
 fi
 
 echo "$1"
+
+exit 0

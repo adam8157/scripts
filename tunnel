@@ -19,7 +19,6 @@ then
         echo Tunnel is turned on.
         exit 0
     fi
-
 elif [[ "$#" = "1" && "$1" = "off" ]]
 then
     if [ -n "$lock" ]
@@ -31,7 +30,6 @@ then
         echo Tunnel is already off.
         exit 1
     fi
-
 else
     echo "Usage: $name on | off"
     exit 1
