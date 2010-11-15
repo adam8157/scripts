@@ -1,7 +1,6 @@
 #!/bin/sh
 
-date=`date +%y%m%d`
-name=backup-$date.tgz
+name=backup-$(date +%y%m%d).tgz
 
 if [ -f /media/sdb1/$name ]
 then
