@@ -1,5 +1,10 @@
 #!/bin/sh
 
+case "$TERM" in
+    xterm* | screen) head="";;
+    *) head="xterm -e";;
+esac
+
 name=backup-$(date +%y%m%d).tar.7z
 
 if [ -f /media/sdb1/$name ]
@@ -8,11 +13,11 @@ then
     then
         rm -f /media/sdb1/$name
     else
-        echo Target file already exists.
+        $head "echo Target file already exists. && sleep 2"
         exit 1
     fi
 fi
 
-tar cf - -C ~ Scripts -C ~/Backup Dotfiles Firefox -C ~/Documents Tips Note Sign Todo | 7z a -p -si /media/sdb1/$name
+$head "tar cf - -C ~ Scripts -C ~/Backup Dotfiles Firefox -C ~/Documents Tips Note Sign Todo | 7z a -p -si /media/sdb1/$name"
 
 exit 0

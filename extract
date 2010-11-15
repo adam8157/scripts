@@ -20,11 +20,11 @@ do
 
     if [ ! -w "$dname" ]
     then
-        $head "echo Permission denied && sleep 2"
+        $head "echo Permission denied. && sleep 2"
         exit 1
     elif [ -d "$dname/$destdir" ]
     then
-        $head "echo Directory already exists && sleep 2"
+        $head "echo Directory already exists. && sleep 2"
         exit 1
     else
         cd "$dname"
