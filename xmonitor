@@ -8,38 +8,42 @@ OTHER_OUTPUTS='VGA1 TV1'
 
 for OTHER_CONNECTED in $OTHER_OUTPUTS
 do
-    if [[ "$CURRENT_INFO" =~ "$OTHER_CONNECTED connected" ]]
-    then
-        if [[ "$CURRENT_INFO" =~ "$OTHER_CONNECTED connected (" ]]
-        then
-            STATE=INTERNAL
-        else
-            STATE=EXTERNAL
-        fi
-    else
-        echo "Error: No other output connected"
-        exit 1
-    fi
+	if [[ "$CURRENT_INFO" =~ "$OTHER_CONNECTED connected" ]]
+	then
+		if [[ "$CURRENT_INFO" =~ "$OTHER_CONNECTED connected (" ]]
+		then
+			STATE=INTERNAL
+		else
+			STATE=EXTERNAL
+		fi
+	else
+		echo "Error: No other output connected"
+		exit 1
+	fi
 done
 
 if [[ "$#" = "1" && "$1" = "both" ]]
 then
-    xrandr --output $DEFAULT_OUTPUT --auto --output $OTHER_CONNECTED --auto --same-as $DEFAULT_OUTPUT
+	xrandr --output $DEFAULT_OUTPUT --auto --output $OTHER_CONNECTED \
+		--auto --same-as $DEFAULT_OUTPUT
 elif [[ "$#" = "1" && "$1" = "multi" ]]
 then
-    xrandr --output $DEFAULT_OUTPUT --auto --output $OTHER_CONNECTED --auto --right-of $DEFAULT_OUTPUT
+	xrandr --output $DEFAULT_OUTPUT --auto --output $OTHER_CONNECTED \
+		--auto --right-of $DEFAULT_OUTPUT
 elif [[ "$#" = "1" && "$1" = "toggle" ]]
 then
-    if [ "$STATE" = "INTERNAL" ]
-    then
-        xrandr --output $DEFAULT_OUTPUT --off --output $OTHER_CONNECTED --auto
-    elif [ "$STATE" = "EXTERNAL" ]
-    then
-        xrandr --output $DEFAULT_OUTPUT --auto --output $OTHER_CONNECTED --off
-    fi
+	if [ "$STATE" = "INTERNAL" ]
+	then
+		xrandr --output $DEFAULT_OUTPUT --off \
+			--output $OTHER_CONNECTED --auto
+	elif [ "$STATE" = "EXTERNAL" ]
+	then
+		xrandr --output $DEFAULT_OUTPUT --auto \
+			--output $OTHER_CONNECTED --off
+	fi
 else
-    echo "Usage: $name both | multi | toggle"
-    exit 1
+	echo "Usage: $name both | multi | toggle"
+	exit 1
 fi
 
 exit 0

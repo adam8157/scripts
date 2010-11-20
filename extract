@@ -1,46 +1,54 @@
 #!/bin/sh
 
 case "$TERM" in
-    xterm* | screen) head="eval";;
-    *) head="xterm -e";;
+	xterm* | screen)
+		head="eval";;
+	*)
+		head="xterm -e";;
 esac
 
 for args in "$@"
 do
-    fname=$(readlink -f "$args")
-    bname=$(basename "$fname")
-    dname=$(dirname "$fname")
-    dest1st=${bname%.*}
-    dest2nd=${dest1st%.*}
-    destdir=${dest1st}
+	fname=$(readlink -f "$args")
+	bname=$(basename "$fname")
+	dname=$(dirname "$fname")
+	dest1st=${bname%.*}
+	dest2nd=${dest1st%.*}
+	destdir=${dest1st}
 
-    case "$bname" in
-        *.tar.gz | *.tar.bz2 | *.tar.xz | *.tar.7z) destdir=${dest2nd};;
-    esac
+	case "$bname" in
+		*.tar.gz | *.tar.bz2 | *.tar.xz | *.tar.7z)
+			destdir=${dest2nd};;
+	esac
 
-    if [ ! -w "$dname" ]
-    then
-        $head "echo Permission denied. && sleep 2"
-        exit 1
-    elif [ -d "$dname/$destdir" ]
-    then
-        $head "echo Directory already exists. && sleep 2"
-        exit 1
-    else
-        cd "$dname"
-        mkdir "$destdir"
-        cd "$destdir"
+	if [ ! -w "$dname" ]
+	then
+		$head "echo Permission denied. && sleep 2"
+		exit 1
+	elif [ -d "$dname/$destdir" ]
+	then
+		$head "echo Directory already exists. && sleep 2"
+		exit 1
+	else
+		cd "$dname"
+		mkdir "$destdir"
+		cd "$destdir"
 
-        case "$bname" in
-            *.tar.bz2 | *.tbz | *.tb2 | *.tbz2) $head tar xvjf "$fname";;
-            *.tar.7z | *.t7z) $head 7z x -so "$fname" | tar xf -;;
-            *.tar.gz | *.tgz) $head tar xvzf "$fname";;
-            *.tar.xz | *.txz) $head tar xvJf "$fname";;
-            *) $head 7z x "$fname";;
-        esac
-    fi
+		case "$bname" in
+			*.tar.bz2 | *.tbz | *.tb2 | *.tbz2)
+				$head tar xvjf "$fname";;
+			*.tar.7z | *.t7z)
+				$head 7z x -so "$fname" | tar xf -;;
+			*.tar.gz | *.tgz)
+				$head tar xvzf "$fname";;
+			*.tar.xz | *.txz)
+				$head tar xvJf "$fname";;
+			*)
+				$head 7z x "$fname";;
+		esac
+	fi
 
-    cd "$dname"
+	cd "$dname"
 done
 
 exit 0

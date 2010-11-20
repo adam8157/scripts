@@ -6,33 +6,34 @@
 source .hostinfo
 
 name=$(basename "$0")
-lock=$(ps -A -F | grep qTfnN | grep $user'@'$host | grep -v grep | awk '{print $2}')
+lock=$(ps -A -F | grep qTfnN | grep $user'@'$host | grep -v grep \
+	| awk '{print $2}')
 
 if [[ "$#" = "1" && "$1" = "on" ]]
 then
-    if [ -n "$lock" ]
-    then
-        echo Tunnel is already on.
-        exit 1
-    else
-        ssh -qTfnN -D $port $user'@'$host
-        echo Tunnel is turned on.
-        exit 0
-    fi
+	if [ -n "$lock" ]
+	then
+		echo Tunnel is already on.
+		exit 1
+	else
+		ssh -qTfnN -D $port $user'@'$host
+		echo Tunnel is turned on.
+		exit 0
+	fi
 elif [[ "$#" = "1" && "$1" = "off" ]]
 then
-    if [ -n "$lock" ]
-    then
-        kill $lock
-        echo Tunnel is turned off.
-        exit 0
-    else
-        echo Tunnel is already off.
-        exit 1
-    fi
+	if [ -n "$lock" ]
+	then
+		kill $lock
+		echo Tunnel is turned off.
+		exit 0
+	else
+		echo Tunnel is already off.
+		exit 1
+	fi
 else
-    echo "Usage: $name on | off"
-    exit 1
+	echo "Usage: $name on | off"
+	exit 1
 fi
 
 exit 0

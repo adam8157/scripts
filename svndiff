@@ -5,8 +5,8 @@ DIFF="vimdiff"
 
 if [ -z $2 ]
 then
-    echo ERROR: This script expects to be called by subversion
-    exit 1
+	echo ERROR: This script expects to be called by subversion
+	exit 1
 fi
 
 # Subversion provides the paths we need as the sixth and seventh 
