@@ -1,0 +1,37 @@
+#!/bin/sh
+
+NUM=1
+TOTAL_NUM=$[`ls -l |grep ^- |wc -l` - 1]
+LENGTH=`echo $TOTAL_NUM |awk '{print length($0)}'`
+
+if [ "$1" == "-f" ]
+then
+	TEMP_DIR=`mktemp -d .tmp.XXXXXXXXXX` || exit 1
+fi
+
+for orig in `ls -S -r`
+do
+	if [ ! -f "$orig" ]
+	then
+		continue
+	fi
+	EXT=${orig##*.}
+	echo ""$orig"  -->  "`printf %0.${LENGTH}d $NUM`.$EXT""
+	if [ "$1" == "-f" ]
+	then
+		mv "$orig" "${TEMP_DIR}/`printf %0.${LENGTH}d $NUM`.$EXT"
+	fi
+	NUM=$[$NUM + 1]
+done
+
+if [ "$1" == "-f" ]
+then
+	mv ${TEMP_DIR}/* ./
+	rmdir $TEMP_DIR
+else
+	echo
+	echo "Use $(basename "$0") -f to make it effective"
+	echo
+fi
+
+exit 0
