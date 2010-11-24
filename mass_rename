@@ -16,7 +16,7 @@ do
 		continue
 	fi
 	EXT=${orig##*.}
-	echo ""$orig"  -->  "`printf %0.${LENGTH}d $NUM`.$EXT""
+	echo ""`printf %0.${LENGTH}d $NUM`.$EXT"   <--   "$orig""
 	if [ "$1" == "-f" ]
 	then
 		mv "$orig" "${TEMP_DIR}/`printf %0.${LENGTH}d $NUM`.$EXT"
