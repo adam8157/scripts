@@ -1,0 +1,22 @@
+#!/bin/sh
+
+DESTDIR="${HOME}/Videos/Flash"
+
+if [ ! -d "$DESTDIR" ]
+then
+	mkdir -p $DESTDIR || exit 1
+fi
+
+LINES=`lsof |grep '/tmp/Flash[^ ]*'`
+
+IFS=$'\n'
+
+for i in $LINES
+do
+	FILE=`echo $i |awk '{print "/proc/" $2 "/fd/" $4}' |sed 's/[rwu]$//'`
+	NAME=`echo $i |awk '{print $9}' |awk -F '/' '{print $3}'`
+
+	cp $FILE ${DESTDIR}/${NAME}.flv
+done
+
+exit 0
