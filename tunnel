@@ -6,7 +6,7 @@
 source .hostinfo
 
 name=$(basename "$0")
-lock=$(ps -A -F | grep qTfnN | grep $user'@'$host | grep -v grep \
+lock=$(ps -A -F | grep CfgNnqT | grep ${user}@${host} | grep -v grep \
 	| awk '{print $2}')
 
 if [[ "$#" = "1" && "$1" = "on" ]]
@@ -16,7 +16,7 @@ then
 		echo Tunnel is already on.
 		exit 1
 	else
-		ssh -qTfnN -D $port $user'@'$host
+		ssh -CfgNnqT -D $port ${user}@${host}
 		echo Tunnel is turned on.
 		exit 0
 	fi
