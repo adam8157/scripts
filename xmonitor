@@ -2,9 +2,11 @@
 
 CURRENT_INFO=`xrandr`
 
-DEFAULT_OUTPUT='LVDS1'
+DEFAULT_OUTPUT="LVDS1"
 
-OTHER_OUTPUTS='VGA1 TV1'
+OTHER_OUTPUTS="VGA1 TV1"
+
+DEFAULT_BOTH_MODE="1024x768"
 
 for OTHER_CONNECTED in $OTHER_OUTPUTS
 do
@@ -22,10 +24,17 @@ do
 	fi
 done
 
-if [[ "$#" = "1" && "$1" = "both" ]]
+if [[ "$#" = "1" || "$#" = "2" && "$1" = "both" ]]
 then
-	xrandr --output $DEFAULT_OUTPUT --auto --output $OTHER_CONNECTED \
-		--auto --same-as $DEFAULT_OUTPUT
+	if [ "$#" = "2" ]
+	then
+		MODE=$2
+	else
+		MODE=$DEFAULT_BOTH_MODE
+	fi
+	xrandr --output $DEFAULT_OUTPUT --mode $MODE --set "scaling mode" \
+		"Full aspect" --output $OTHER_CONNECTED --mode $MODE \
+		--same-as $DEFAULT_OUTPUT
 elif [[ "$#" = "1" && "$1" = "multi" ]]
 then
 	xrandr --output $DEFAULT_OUTPUT --auto --output $OTHER_CONNECTED \
@@ -42,7 +51,7 @@ then
 			--output $OTHER_CONNECTED --off
 	fi
 else
-	echo "Usage: $name both | multi | toggle"
+	echo "Usage: $name both [mode] | multi | toggle"
 	exit 1
 fi
 
