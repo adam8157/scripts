@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Configure your favorite merge program here.
+MERGE="vim -d"
+
+if [ -z $2 ]
+then
+	echo ERROR: This script expects to be called by subversion
+	exit 1
+fi
+
+# Subversion provides the paths we need as the first, second, third
+# and fourth parameters.
+BASE=${1}
+THEIRS=${2}
+MINE=${3}
+MERGED=${4}
+
+# Call the merge command (change the following line to make sense for
+# your merge program).
+$MERGE $MERGED -c ":diffsplit $MINE" -c ":vertical diffsplit $THEIRS" \
+	-c ":vertical diffsplit $BASE"
+
+# Return an errorcode of 0 on successful merge, 1 if unresolved conflicts
+# remain in the result.  Any other errorcode will be treated as fatal.
+exit 0
