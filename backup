@@ -15,7 +15,7 @@ then
 	then
 		rm -f /media/sdb1/$name
 	else
-		$head "echo Target file already exists. && sleep 2"
+		$head "echo Target file already exists, use -f to overwrite. && sleep 2"
 		exit 1
 	fi
 fi
