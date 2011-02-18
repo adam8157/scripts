@@ -14,11 +14,12 @@ do
 		exit 1
 	else
 		[ "$CURRENT" != "$HEADER" ] && {
-		HEADERS="${HEADERS} linux-headers-${HEADER}-${ARCH} \
-			linux-headers-${HEADER}-${ARCH}-common"
 		IMAGE="`dpkg --get-selections | grep ^linux-image \
 			| grep "${HEADER}" | awk '{print $1}'`"
 		IMAGES="${IMAGES} $IMAGE"
+		HEADERS="${HEADERS} linux-headers-${HEADER}-common \
+			linux-headers-${HEADER}-${ARCH}"
+		MODULES="${MODULES} /lib/modules/${HEADER}-${ARCH}"
 		}
 	fi
 done
@@ -31,15 +32,16 @@ fi
 
 echo
 echo ------------------------------------
-echo "$IMAGES $HEADERS"
+echo "$IMAGES $HEADERS $MODULES"
 echo ------------------------------------
 echo 
 
-read -p "Really wanna remove these packages? [y/N] " REPLY
+read -p "Really wanna remove these packages or directories? [y/N] " REPLY
 
 case $REPLY in
 	y | Y)
-		sh -c "sudo apt-get purge $IMAGES $HEADERS";;
+		sh -c "sudo apt-get purge $IMAGES $HEADERS && sudo rm -rf \
+			$MODULES";;
 	*)
 		echo "The operation is cancelled.";;
 esac
