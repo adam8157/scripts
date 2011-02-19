@@ -23,6 +23,7 @@ mv -f ~/.esd_auth ~/Trash
 mv -f ~/.ICEauthority ~/Trash
 mv -f ~/.htoprc ~/Trash
 mv -f ~/.lesshst ~/Trash
+mv -f ~/.libreoffice ~/Trash
 mv -f ~/.openoffice.org ~/Trash
 mv -f ~/.pulse-cookie ~/Trash
 mv -f ~/.recently-used ~/Trash
