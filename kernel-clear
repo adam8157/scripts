@@ -5,22 +5,23 @@ HEADERS=""
 IMAGES=""
 ARCH="amd64"
 
-for HEADER in `dpkg --get-selections | grep ^linux-headers \
-	| grep -v "${ARCH}" | awk -F"-" '{print $3"-"$4}'`
+for HEADER in `dpkg --get-selections | grep ^linux-image \
+	| grep -v "linux-image-${ARCH}" | awk -F "-" '{print $3"-"$4}'`
 do
 	if [ "$CURRENT" \< "$HEADER" ]
 	then
 		echo "Running kernel is not the newest. $CURRENT < $HEADER"
 		exit 1
 	else
-		[ "$CURRENT" != "$HEADER" ] && {
-		IMAGE="`dpkg --get-selections | grep ^linux-image \
-			| grep "${HEADER}" | awk '{print $1}'`"
-		IMAGES="${IMAGES} $IMAGE"
-		HEADERS="${HEADERS} linux-headers-${HEADER}-common \
-			linux-headers-${HEADER}-${ARCH}"
-		MODULES="${MODULES} /lib/modules/${HEADER}-${ARCH}"
-		}
+		if [ "$CURRENT" != "$HEADER" ]
+		then
+			IMAGE="`dpkg --get-selections | grep ^linux-image \
+				| grep "${HEADER}" | awk '{print $1}'`"
+			IMAGES="${IMAGES} $IMAGE"
+			HEADERS="${HEADERS} linux-headers-${HEADER}-common"
+			HEADERS="${HEADERS} linux-headers-${HEADER}-${ARCH}"
+			MODULES="${MODULES} /lib/modules/${HEADER}-${ARCH}"
+		fi
 	fi
 done
 
