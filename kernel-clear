@@ -25,7 +25,9 @@ do
 	fi
 done
 
-if [ -z "$HEADERS" ]
+PACKAGES="$IMAGES $HEADERS"
+
+if [ -z "$IMAGES" ]
 then
 	echo "There is no old kernel or headers need to be cleaned."
 	exit 1
@@ -41,8 +43,12 @@ read -p "Really wanna remove these packages or directories? [y/N] " REPLY
 
 case $REPLY in
 	y | Y)
-		sh -c "sudo apt-get purge $IMAGES $HEADERS && sudo rm -rf \
-			$MODULES";;
+		for PACKAGE in $PACKAGES
+		do
+			sudo apt-get purge -y $PACKAGE
+		done
+
+		sudo rm -rf $MODULES;;
 	*)
 		echo "The operation is cancelled.";;
 esac
