@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Configure your favorite merge program here.
 MERGE="vim -d"

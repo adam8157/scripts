@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Configure your favorite diff program here.
 DIFF="vimdiff"

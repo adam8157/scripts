@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 CURRENT="`uname -r | awk -F"-" '{print $1"-"$2}'`"
 HEADERS=""

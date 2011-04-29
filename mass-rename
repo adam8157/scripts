@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 NUM=1
 TOTAL_NUM=$[`ls -l |grep ^- |wc -l` - 1]

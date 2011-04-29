@@ -1,11 +1,4 @@
-#!/bin/sh
-
-case "$TERM" in
-	xterm* | screen)
-		head="eval";;
-	*)
-		head="xterm -e";;
-esac
+#!/bin/bash
 
 name=backup-$(date +%y%m%d).tar.7z
 
@@ -15,13 +8,12 @@ then
 	then
 		rm -f /media/sdb1/$name
 	else
-		$head "echo Target file already exists, \
-			use -f to overwrite. && sleep 2"
+		echo Target file already exists, use -f to overwrite.
 		exit 1
 	fi
 fi
 
-$head "tar cf - -C ~ Scripts -C ~/Backup Dotfiles Firefox -C ~/Documents \
-	Tips Note Sign Todo | 7z a -p -si /media/sdb1/$name"
+tar cf - -C ~ Scripts -C ~/Backup Dotfiles Firefox -C ~/Documents \
+	Tips Note Sign Todo | 7z a -p -si /media/sdb1/$name
 
 exit 0

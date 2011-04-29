@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 output="LVDS1"
 name=$(basename "$0")

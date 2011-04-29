@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 eth=eth0
 wlan=wlan0
@@ -32,7 +32,6 @@ then
 		sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
 		sudo touch $lock
 		echo Adhoc network is turned on.
-		exit 0
 	fi
 elif [[ "$#" = "1" && "$1" = "off" ]]
 then
@@ -53,7 +52,6 @@ then
 		sudo sh -c "echo 0 > /proc/sys/net/ipv4/ip_forward"
 		sudo rm -f $lock
 		echo Adhoc network is turned off.
-		exit 0
 	else
 		echo Adhoc network is already off.
 		exit 1

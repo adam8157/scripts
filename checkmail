@@ -1,16 +1,19 @@
-#!/bin/sh
+#!/bin/bash
 
-count=0
 #name="name"
 #pass="pass"
+echo "Please set the name and pass."; exit 1
+
+count=0
 
 mails="$(wget --secure-protocol=TLSv1 --timeout=3 -t 1 -q -O - \
 	https://${name}:${pass}@mail.google.com/mail/feed/atom \
 	--no-check-certificate)"
 
-if [ -z "$mails" ];then
+if [ -z "$mails" ]
+then
 	notify-send "Mails Check Error"
-	exit
+	exit 1
 fi
 
 mails="$(echo "$mails" | egrep 'fullcount|title' \
@@ -20,7 +23,8 @@ mails="$(echo "$mails" | egrep 'fullcount|title' \
 count="$(echo "$mails" | sed -n '1p')"
 mails="$(echo "$mails" | sed -e '2,$s/^/\* /' | sed -n '2,$p')" 
 
-if [ "$count" -gt "0" ];then
+if [ "$count" -gt "0" ]
+then
 	notify-send "Get $count new mails" "$mails"
 fi
 
