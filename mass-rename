@@ -1,7 +1,7 @@
 #!/bin/bash
 
 NUM=1
-TOTAL_NUM=$[`ls -l |grep ^- |wc -l` - 1]
+TOTAL_NUM=`ls -l |grep ^- |wc -l`
 LENGTH=`echo $TOTAL_NUM |awk '{print length($0)}'`
 
 if [ "$1" == "-f" ]
