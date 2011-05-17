@@ -14,6 +14,6 @@ then
 fi
 
 tar cf - -C ~ Scripts -C ~/Backup Dotfiles Firefox -C ~/Documents \
-	Tips Note Sign Todo | 7z a -p -si /media/sdb1/$name
+	Tips Note | 7z a -p -si /media/sdb1/$name
 
 exit 0
