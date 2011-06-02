@@ -1,19 +1,43 @@
 #!/bin/bash
 
-name=backup-$(date +%y%m%d).tar.7z
+dir=/media/sdb1
+name=$(basename "$0")
+file=backup-$(date +%y%m%d).tar.7z
 
-if [ -f /media/sdb1/$name ]
+while getopts ":d:f" arg
+do
+	case $arg in
+		d)
+			dir="$OPTARG";;
+		f)
+			flag="overwrite";;
+		:)
+			echo "Error: -$OPTARG needs an argument"
+			exit 1;;
+		?)
+			echo "Usage: $name [-d directory] [-f]"
+			exit 1;;
+	esac
+done
+
+if [ ! -d ${dir} ]
 then
-	if [ "$1" == "-f" ]
+	echo "Target directory don't exists, use -d to specify."
+	exit 1
+fi
+
+if [ -f ${dir}/$file ]
+then
+	if [ "$flag" == "overwrite" ]
 	then
-		rm -f /media/sdb1/$name
+		rm -f ${dir}/${file}
 	else
-		echo Target file already exists, use -f to overwrite.
+		echo "Target file already exists, use -f to overwrite."
 		exit 1
 	fi
 fi
 
 tar cf - -C ~ Scripts -C ~/Backup Dotfiles Firefox -C ~/Documents \
-	Tips Note | 7z a -p -si /media/sdb1/$name
+	Tips | 7z a -p -si ${dir}/$file
 
 exit 0
