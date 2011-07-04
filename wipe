@@ -9,6 +9,7 @@ mv -f ~/.fontconfig ~/Trash
 mv -f ~/.gconfd ~/Trash
 mv -f ~/.gegl-0.0 ~/Trash
 mv -f ~/.gimp-2.6 ~/Trash
+mv -f ~/.gmrun_history ~/Trash
 mv -f ~/.gnome2 ~/Trash
 mv -f ~/.gstreamer-0.10 ~/Trash
 mv -f ~/.gvfs ~/Trash
