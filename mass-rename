@@ -4,7 +4,31 @@ NUM=1
 TOTAL_NUM=`ls -l |grep ^- |wc -l`
 LENGTH=`echo $TOTAL_NUM |awk '{print length($0)}'`
 
-if [ "$1" == "-f" ]
+while getopts ":fl:" arg
+do
+	case $arg in
+		f)
+			FLAG="write";;
+		l)
+			LENGTH_OPT="$OPTARG";;
+		:)
+			echo "Error: -$OPTARG needs an argument"
+			exit 1;;
+		?)
+			echo "Usage: $name [-f] [-l length]"
+			exit 1;;
+	esac
+done
+
+if [[ "$LENGTH_OPT" =~ ^[0-9]+$ ]]
+then
+	if [ "$LENGTH_OPT" -gt "$LENGTH" ]
+	then
+		LENGTH=$LENGTH_OPT
+	fi
+fi
+
+if [ "$FLAG" == "write" ]
 then
 	TEMP_DIR=`mktemp -d .tmp.XXXXXXXXXX` || exit 1
 fi
@@ -24,7 +48,7 @@ do
 	NUM=$[$NUM + 1]
 done
 
-if [ "$1" == "-f" ]
+if [ "$FLAG" == "write" ]
 then
 	mv ${TEMP_DIR}/* ./
 	rmdir $TEMP_DIR
