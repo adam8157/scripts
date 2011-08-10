@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ -n "$DISPLAY" ]
+then
+	notify-send "$@"
+else
+	exit 1
+fi
+
+exit 0
