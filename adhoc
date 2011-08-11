@@ -16,20 +16,24 @@ then
 		echo Adhoc network is already on.
 		exit 1
 	else
-		#starts the ad hoc server
+		#start the ad hoc server
 		sudo ifconfig $wlan down
 		sudo iwconfig $wlan mode ad-hoc
 		sudo iwconfig $wlan key s:$key
 		sudo iwconfig $wlan essid "$essid"
-		sudo ifconfig $wlan 10.0.0.1 up
+		sudo ifconfig $wlan 192.168.10.1 up
 
 		#forwards the ad hoc network to the router
-		sudo iptables -A FORWARD -i $wlan -o $eth -s 10.0.0.0/24 -m \
+		sudo iptables -A FORWARD -i $wlan -o $eth -s 192.168.10.0/24 -m \
 			state --state NEW -j ACCEPT
 		sudo iptables -A FORWARD -m \
 			state --state ESTABLISHED,RELATED -j ACCEPT
 		sudo iptables -A POSTROUTING -t nat -j MASQUERADE
 		sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
+		
+		#start the dhcp server
+		sudo /etc/init.d/isc-dhcp-server start
+
 		sudo touch $lock
 		echo Adhoc network is turned on.
 	fi
@@ -44,12 +48,16 @@ then
 		sudo iwconfig $wlan essid any
 
 		#delete added iptables rules
-		sudo iptables -D FORWARD -i $wlan -o $eth -s 10.0.0.0/24 -m \
+		sudo iptables -D FORWARD -i $wlan -o $eth -s 192.168.10.0/24 -m \
 			state --state NEW -j ACCEPT
 		sudo iptables -D FORWARD -m \
 			state --state ESTABLISHED,RELATED -j ACCEPT
 		sudo iptables -D POSTROUTING -t nat -j MASQUERADE
 		sudo sh -c "echo 0 > /proc/sys/net/ipv4/ip_forward"
+		
+		#stop the dhcp server
+		sudo /etc/init.d/isc-dhcp-server stop
+
 		sudo rm -f $lock
 		echo Adhoc network is turned off.
 	else
