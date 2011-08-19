@@ -30,7 +30,7 @@ then
 			state --state ESTABLISHED,RELATED -j ACCEPT
 		sudo iptables -A POSTROUTING -t nat -j MASQUERADE
 		sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
-		
+
 		#start the dhcp server
 		sudo /etc/init.d/isc-dhcp-server start
 
@@ -54,7 +54,7 @@ then
 			state --state ESTABLISHED,RELATED -j ACCEPT
 		sudo iptables -D POSTROUTING -t nat -j MASQUERADE
 		sudo sh -c "echo 0 > /proc/sys/net/ipv4/ip_forward"
-		
+
 		#stop the dhcp server
 		sudo /etc/init.d/isc-dhcp-server stop
 
