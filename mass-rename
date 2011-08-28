@@ -41,7 +41,7 @@ do
 	fi
 	EXT=${orig##*.}
 	echo ""`printf %0.${LENGTH}d $NUM`.$EXT"   <--   "$orig""
-	if [ "$1" == "-f" ]
+	if [ "$FLAG" == "write" ]
 	then
 		mv "$orig" "${TEMP_DIR}/`printf %0.${LENGTH}d $NUM`.$EXT"
 	fi
@@ -54,7 +54,7 @@ then
 	rmdir $TEMP_DIR
 else
 	echo
-	echo "Use $(basename "$0") -f to make it effective"
+	echo "Usage: $name [-f] [-l length]"
 	echo
 fi
 
