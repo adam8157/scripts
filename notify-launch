@@ -2,7 +2,7 @@
 
 if [ -n "$DISPLAY" ]
 then
-	notify-send "$@"
+	notify-send "$@"" "
 else
 	exit 1
 fi
