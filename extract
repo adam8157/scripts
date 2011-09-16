@@ -28,14 +28,22 @@ do
 		cd "$destdir"
 
 		case "$bname" in
-			*.tar.bz2 | *.tbz | *.tb2 | *.tbz2)
+			*.tar.bz2 | *.tbz2)
 				tar xvjf "$fname";;
-			*.tar.7z | *.t7z)
-				7z x -so "$fname" | tar xf -;;
 			*.tar.gz | *.tgz)
 				tar xvzf "$fname";;
 			*.tar.xz | *.txz)
 				tar xvJf "$fname";;
+			*.tar.7z | *.t7z)
+				7z x -so "$fname" | tar xf -;;
+			*.bz2)
+				bzip2 -d "$fname";;
+			*.gz)
+				gzip -d "$fname";;
+			*.xz)
+				xz -d "$fname";;
+			*.deb)
+				ar x "$fname";;
 			*)
 				7z x "$fname";;
 		esac
