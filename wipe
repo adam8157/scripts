@@ -1,36 +1,37 @@
 #!/bin/bash
 
-mv -f ~/.adobe ~/Trash
-mv -f ~/.bash_history ~/Trash
-mv -f ~/.cache ~/Trash
-mv -f ~/.covers ~/Trash
-mv -f ~/.dbus ~/Trash
-mv -f ~/.fontconfig ~/Trash
-mv -f ~/.gconfd ~/Trash
-mv -f ~/.gegl-0.0 ~/Trash
-mv -f ~/.gimp-2.6 ~/Trash
-mv -f ~/.gmrun_history ~/Trash
-mv -f ~/.gnome2 ~/Trash
-mv -f ~/.gstreamer-0.10 ~/Trash
-mv -f ~/.gvfs ~/Trash
-mv -f ~/.java ~/Trash
-mv -f ~/.local ~/Trash
-mv -f ~/.macromedia ~/Trash
-mv -f ~/.pulse ~/Trash
-mv -f ~/.qt ~/Trash
-mv -f ~/.thumbnails ~/Trash
-mv -f ~/.xinput.d ~/Trash
-mv -f ~/.esd_auth ~/Trash
-mv -f ~/.ICEauthority ~/Trash
-mv -f ~/.htoprc ~/Trash
-mv -f ~/.lesshst ~/Trash
-mv -f ~/.libreoffice ~/Trash
-mv -f ~/.openoffice.org ~/Trash
-mv -f ~/.pulse-cookie ~/Trash
-mv -f ~/.recently-used ~/Trash
-mv -f ~/.recently-used.xbel ~/Trash
-mv -f ~/.viminfo ~/Trash
-mv -f ~/.vimperator ~/Trash
-mv -f ~/.w3m ~/Trash
+trash ~/.adobe \
+	~/.bash_history \
+	~/.cache \
+	~/.covers \
+	~/.dbus \
+	~/.fontconfig \
+	~/.gconfd \
+	~/.gegl-0.0 \
+	~/.gimp-2.6 \
+	~/.gmrun_history \
+	~/.gnome2 \
+	~/.gstreamer-0.10 \
+	~/.gvfs \
+	~/.java \
+	~/.local \
+	~/.macromedia \
+	~/.pulse \
+	~/.qt \
+	~/.thumbnails \
+	~/.xinput.d \
+	~/.esd_auth \
+	~/.ICEauthority \
+	~/.htoprc \
+	~/.lesshst \
+	~/.libreoffice \
+	~/.openoffice.org \
+	~/.pulse-cookie \
+	~/.recently-used \
+	~/.recently-used.xbel \
+	~/.viminfo \
+	~/.vimperator \
+	~/.w3m \
+	2>/dev/null
 
 exit 0
