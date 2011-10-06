@@ -1,5 +1,11 @@
 #!/bin/bash
 
-mv -f "$@" ~/Trash/
+stamp=$(date +'%y%m%d-%H%M%S')
+
+for args in "$@"
+do
+	name=$(basename "$args")
+	mv -f "$args" ~/Trash/"$name"-"$stamp"
+done
 
 exit 0
