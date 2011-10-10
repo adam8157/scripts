@@ -4,52 +4,42 @@ for args in "$@"
 do
 	fname=$(readlink -f "$args")
 	bname=$(basename "$fname")
-	dname=$(dirname "$fname")
 	dest1st=${bname%.*}
 	dest2nd=${dest1st%.*}
-	destdir=${dest1st}
 
 	case "$bname" in
 		*.tar.gz | *.tar.bz2 | *.tar.xz | *.tar.7z)
 			destdir=${dest2nd};;
+		*)
+			destdir=${dest1st};;
 	esac
 
-	if [ ! -w "$dname" ]
-	then
-		echo Permission denied.
-		exit 1
-	elif [ -d "$dname/$destdir" ]
-	then
-		echo Directory already exists.
-		exit 1
-	else
-		cd "$dname"
-		mkdir "$destdir"
-		cd "$destdir"
+	mkdir $destdir
 
-		case "$bname" in
-			*.tar.bz2 | *.tbz2)
-				tar xvjf "$fname";;
-			*.tar.gz | *.tgz)
-				tar xvzf "$fname";;
-			*.tar.xz | *.txz)
-				tar xvJf "$fname";;
-			*.tar.7z | *.t7z)
-				7z x -so "$fname" | tar xf -;;
-			*.bz2)
-				bzip2 -d "$fname";;
-			*.gz)
-				gzip -d "$fname";;
-			*.xz)
-				xz -d "$fname";;
-			*.deb)
-				ar x "$fname";;
-			*)
-				7z x "$fname";;
-		esac
+	if [ "$?" != "0" ]
+	then
+		echo Directory creating failed.
+		exit 1
 	fi
 
-	cd "$dname"
+	cd $destdir
+
+	case "$bname" in
+		*.tar.bz2 | *.tbz2)
+			tar xvjf "$fname";;
+		*.tar.gz | *.tgz)
+			tar xvzf "$fname";;
+		*.tar.xz | *.txz)
+			tar xvJf "$fname";;
+		*.tar.7z | *.t7z)
+			7z x -so "$fname" | tar xf -;;
+		*.deb)
+			ar x "$fname";;
+		*)
+			7z x "$fname";;
+	esac
+
+	cd $OLDPWD
 done
 
 exit 0
