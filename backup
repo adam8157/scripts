@@ -20,17 +20,17 @@ do
 	esac
 done
 
-if [ ! -d ${dir} ]
+if [ ! -d "$dir" ]
 then
 	echo "Target directory don't exists, use -d to specify."
 	exit 1
 fi
 
-if [ -f ${dir}/$file ]
+if [ -f "$dir/$file" ]
 then
 	if [ "$flag" == "overwrite" ]
 	then
-		rm -f ${dir}/${file}
+		rm -f $dir/$file
 	else
 		echo "Target file already exists, use -f to overwrite."
 		exit 1
@@ -38,6 +38,6 @@ then
 fi
 
 tar cf - -C ~ Scripts -C ~/Backup Dotfiles Firefox -C ~/Documents \
-	Tips | 7z a -p -si ${dir}/$file
+	Tips | 7z a -p -si $dir/$file
 
 exit 0
