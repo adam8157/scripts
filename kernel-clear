@@ -48,7 +48,7 @@ case $REPLY in
 			sudo apt-get purge -y $PACKAGE
 		done
 
-		sudo rm -rf $MODULES;;
+		sudo rm -rvf $MODULES;;
 	*)
 		echo "The operation is cancelled.";;
 esac
