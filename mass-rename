@@ -30,7 +30,7 @@ fi
 
 if [ "$FLAG" == "write" ]
 then
-	TEMP_DIR=`mktemp -d .tmp.XXXXXXXXXX` || exit 1
+	TEMP_DIR=`mktemp -d .tmp.XXXXXXXX` || exit 1
 fi
 
 for orig in `ls -S -r`
