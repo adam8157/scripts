@@ -1,0 +1,40 @@
+#!/bin/bash
+# Pre sendmail hook, just do attachment check now
+
+# Set MTA
+SENDMAIL=/usr/bin/msmtp
+
+# Save msg in file for multiple tests
+TMPFILE=`mktemp -t check-attach.XXXXXXXX` || exit 2
+
+# Define test for multipart message
+multipart () {
+	grep -q '^Content-Type: multipart' "$TMPFILE"
+}
+
+# Define test for keyword search
+attach () {
+	grep -v '^>' "$TMPFILE" | grep -E -i -q 'attach|patch|附件'
+}
+
+# Header override
+override () {
+	grep -i -E "^X-attached: none$" "$TMPFILE"
+}
+
+cat > "$TMPFILE"
+
+if multipart || ! attach || override
+then
+	$SENDMAIL "$@" < "$TMPFILE"
+	EXIT_STATUS=$?
+else
+	echo "Attachment missed?"
+	echo
+	echo "Add a header \"X-attached: none\" to override this check."
+	EXIT_STATUS=1
+fi
+
+rm -f "$TMPFILE"
+
+exit $EXIT_STATUS
