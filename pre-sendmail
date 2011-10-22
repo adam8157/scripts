@@ -17,14 +17,24 @@ attach () {
 	grep -v '^>' "$TMPFILE" | grep -E -i -q 'attach|patch|附件'
 }
 
-# Header override
+# Query function to pass message
+ask () {
+	if [ -z "$DISPLAY" ] && [ -x "/usr/bin/zenity" ]
+	then
+		zenity --question --title 'mutt' --text 'Attachment missed?'
+	else
+		return 0
+	fi
+}
+
+# Header to override this check
 override () {
 	grep -i -E "^X-attached: none$" "$TMPFILE"
 }
 
 cat > "$TMPFILE"
 
-if multipart || ! attach || override
+if multipart || ! attach || ask || override
 then
 	$SENDMAIL "$@" < "$TMPFILE"
 	EXIT_STATUS=$?
