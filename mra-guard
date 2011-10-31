@@ -1,0 +1,23 @@
+#!/bin/bash
+
+while true
+do
+	pgrep -u "$(id -u)" "offlineimap" >/dev/null 2>&1
+
+	if [ "$?" != "0" ]
+	then
+		cat <<- EOF >> ~/.offlineimap/log
+
+		--------------------------------
+		Starting offlineimap: $(date +'%Y-%m-%d %H:%M')
+		--------------------------------
+
+		EOF
+
+		nohup offlineimap &>> ~/.offlineimap/log &
+	fi
+
+	sleep 300
+done
+
+exit 0
