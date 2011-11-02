@@ -14,7 +14,7 @@ do
 			destdir=${dest1st};;
 	esac
 
-	mkdir $destdir
+	mkdir "$destdir"
 
 	if [ "$?" != "0" ]
 	then
@@ -22,7 +22,7 @@ do
 		exit 1
 	fi
 
-	cd $destdir
+	cd "$destdir"
 
 	case "$bname" in
 		*.tar.bz2 | *.tbz2)
