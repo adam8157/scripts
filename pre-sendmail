@@ -12,6 +12,11 @@ multipart () {
 	grep -q '^Content-Type: multipart' "$TMPFILE"
 }
 
+# Header to override this check
+override () {
+	grep -i -E "^X-attached: none$" "$TMPFILE"
+}
+
 # Define test for keyword search
 attach () {
 	grep -v '^>' "$TMPFILE" | grep -E -i -q 'attach|patch|附件'
@@ -19,7 +24,7 @@ attach () {
 
 # Query function to pass message
 ask () {
-	if [ -z "$DISPLAY" ] && [ -x "/usr/bin/zenity" ]
+	if [ ! -z "$DISPLAY" ] && [ -x "/usr/bin/zenity" ]
 	then
 		zenity --question --title 'mutt' --text 'Attachment missed?'
 	else
@@ -27,21 +32,16 @@ ask () {
 	fi
 }
 
-# Header to override this check
-override () {
-	grep -i -E "^X-attached: none$" "$TMPFILE"
-}
-
 cat > "$TMPFILE"
 
-if multipart || ! attach || ask || override
+if override || multipart || ! attach || ! ask
 then
 	$SENDMAIL "$@" < "$TMPFILE"
 	EXIT_STATUS=$?
 else
 	echo "Attachment missed?"
 	echo
-	echo "Add a header \"X-attached: none\" to override this check."
+	echo "Add your attachment, or add a header \"X-attached: none\" to override this check."
 	EXIT_STATUS=1
 fi
 
