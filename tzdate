@@ -1,0 +1,25 @@
+#!/bin/bash
+
+name=$(basename "$0")
+
+if [ -z "$1" ]
+then
+	args="US/Eastern US/Pacific Europe/Prague"
+	echo "Usage: $name timezone"
+	echo
+else
+	args=$@
+fi
+
+for i in $args
+do
+	if [ -f "/usr/share/zoneinfo/$i" ]
+	then
+		echo ${i}: $(TZ="$i" date)
+	else
+		echo Error: Timezone $i not exist.
+		exit 1
+	fi
+done
+
+exit 0
