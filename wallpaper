@@ -1,6 +1,10 @@
 #!/bin/bash
 
-ln -sf "$1" ~/.Wallpaper
+if [ ! -h "$1" ]
+then
+	ln -sf "$1" ~/.Wallpaper
+fi
+
 hsetroot -fill ~/.Wallpaper
 
 exit 0
