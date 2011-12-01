@@ -2,6 +2,15 @@
 
 while true
 do
+	# Is offlineimap ok?
+	sed '/^$/!h;$!d;g' ~/.offlineimap/log |grep -q -E "^-+$"
+
+	if [ "$?" != "0" ]
+	then
+		pkill -u "$(id -u)" "offlineimap" >/dev/null 2>&1
+	fi
+
+	# Is offlineimap dead?
 	pgrep -u "$(id -u)" "offlineimap" >/dev/null 2>&1
 
 	if [ "$?" != "0" ]
@@ -9,7 +18,7 @@ do
 		cat <<- EOF >> ~/.offlineimap/log
 
 		--------------------------------
-		Starting offlineimap: $(date +'%Y-%m-%d %H:%M')
+		offlineimap started: $(date +'%Y-%m-%d %H:%M')
 		--------------------------------
 
 		EOF
@@ -17,7 +26,7 @@ do
 		nohup offlineimap &>> ~/.offlineimap/log &
 	fi
 
-	sleep 300
+	sleep 120
 done
 
 exit 0
