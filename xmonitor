@@ -1,9 +1,9 @@
 #!/bin/bash
 
-output="LVDS1"
+output="LVDS-1"
 name=$(basename "$0")
 
-if [[ "$#" = "3" && "$1" = "both" ]]
+if [[ "$#" = "3" && "$1" = "same" ]]
 then
 	xrandr --output $output --mode $3 --set "scaling mode" "Full aspect" \
 		--output $2 --mode $3 --same-as $output
@@ -11,7 +11,7 @@ elif [[ "$#" = "2" && "$1" = "multi" ]]
 then
 	xrandr --output $output --auto --output $2 --auto --right-of $output
 else
-	echo "Usage: $name both output mode | multi output"
+	echo "Usage: $name same output mode | $name multi output"
 	echo ================
 	xrandr -q
 	echo ================
