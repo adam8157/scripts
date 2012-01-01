@@ -1,3 +1,9 @@
 #!/bin/bash
 
-echo -n "$*" |sha512sum |cut -c 1-32 |xsel -i -p -l /dev/null
+read -s -p "Which key? " SALT
+
+echo -n "$SALT" |sha512sum |cut -c 1-32 |xsel -i -p -l /dev/null
+
+echo
+
+exit 0
