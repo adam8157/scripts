@@ -1,0 +1,5 @@
+#!/bin/bash
+
+transmission-remote -a $*
+
+exit 0
