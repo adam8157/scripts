@@ -12,7 +12,7 @@ mails="$(wget --secure-protocol=TLSv1 --timeout=3 -t 1 -q -O - \
 
 if [ -z "$mails" ]
 then
-	notify-send "Mails Check Error"
+	notify-send "Mail checking failed"
 	exit 1
 fi
 
@@ -21,7 +21,7 @@ mails="$(echo "$mails" | egrep 'fullcount|title' \
 	-e '2,$s/.*<title>//' -e '2,$s/<\/title>//' |sed -n '2,$p' )"
 
 count="$(echo "$mails" | sed -n '1p')"
-mails="$(echo "$mails" | sed -e '2,$s/^/\* /' | sed -n '2,$p')" 
+mails="$(echo "$mails" | sed -e '2,$s/^/\* /' | sed -n '2,$p')"
 
 if [ "$count" -gt "0" ]
 then
