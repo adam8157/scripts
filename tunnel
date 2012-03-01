@@ -6,8 +6,7 @@
 source .hostinfo &> /dev/null || { echo "Please set the hostinfo."; exit 1; }
 
 name=$(basename "$0")
-lock=$(ps -A -F | grep CfgNnqT | grep ${user}@${host} | grep -v grep \
-	| awk '{print $2}')
+lock=$(pgrep -xf "ssh -CfgNnqT -D 1080 ${user}@${host} -p $port")
 
 if [[ "$#" = "1" && "$1" = "on" ]]
 then
@@ -16,7 +15,7 @@ then
 		echo Tunnel is already on.
 		exit 1
 	else
-		ssh -CfgNnqT -D $port ${user}@${host}
+		ssh -CfgNnqT -D 1080 ${user}@${host} -p $port
 		echo Tunnel is turned on.
 	fi
 elif [[ "$#" = "1" && "$1" = "off" ]]
