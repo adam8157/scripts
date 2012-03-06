@@ -1,9 +1,18 @@
 #!/bin/bash
 
-read -s -p "Which key? " SALT
+if [[ "$1" =~ "-v" ]]
+then
+	read -p "Which key? " SALT
+else
+	read -s -p "Which key? " SALT
+	echo
+fi
 
-echo -n "$SALT" |sha512sum |cut -c 1-32 |xsel -i -p -l /dev/null
-
-echo
+if [[ "$1" =~ "-vv" ]]
+then
+	echo -n "$SALT" |sha512sum |cut -c 1-32
+else
+	echo -n "$SALT" |sha512sum |cut -c 1-32 |xsel -i -p -l /dev/null
+fi
 
 exit 0
