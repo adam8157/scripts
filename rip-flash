@@ -16,7 +16,7 @@ do
 	FILE=`echo $i |awk '{print "/proc/" $2 "/fd/" $4}' |sed 's/[rwu]$//'`
 	NAME=`echo $i |awk '{print $9}' |awk -F '/' '{print $3}'`
 
-	cp $FILE ${DESTDIR}/${NAME}.flv
+	cp -v $FILE ${DESTDIR}/${NAME}.flv
 done
 
 exit 0
