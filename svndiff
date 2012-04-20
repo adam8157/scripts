@@ -3,7 +3,7 @@
 # Configure your favorite diff program here.
 DIFF="vimdiff"
 
-if [ -z $2 ]
+if [ -z "$2" ]
 then
 	echo ERROR: This script expects to be called by subversion
 	exit 1

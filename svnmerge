@@ -3,7 +3,7 @@
 # Configure your favorite merge program here.
 MERGE="vim -d"
 
-if [ -z $2 ]
+if [ -z "$2" ]
 then
 	echo ERROR: This script expects to be called by subversion
 	exit 1
