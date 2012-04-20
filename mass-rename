@@ -28,7 +28,7 @@ then
 	fi
 fi
 
-if [ "$FLAG" == "write" ]
+if [ "$FLAG" = "write" ]
 then
 	TEMP_DIR=`mktemp -d .tmp.XXXXXXXX` || exit 1
 fi
@@ -41,14 +41,14 @@ do
 	fi
 	EXT=${orig##*.}
 	echo ""`printf %0.${LENGTH}d $NUM`.$EXT"   <--   "$orig""
-	if [ "$FLAG" == "write" ]
+	if [ "$FLAG" = "write" ]
 	then
 		mv "$orig" "${TEMP_DIR}/`printf %0.${LENGTH}d $NUM`.$EXT"
 	fi
 	NUM=$[$NUM + 1]
 done
 
-if [ "$FLAG" == "write" ]
+if [ "$FLAG" = "write" ]
 then
 	mv ${TEMP_DIR}/* ./
 	rmdir $TEMP_DIR

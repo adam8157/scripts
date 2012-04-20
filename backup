@@ -28,7 +28,7 @@ fi
 
 if [ -f "$dir/$file" ]
 then
-	if [ "$flag" == "overwrite" ]
+	if [ "$flag" = "overwrite" ]
 	then
 		rm -f $dir/$file
 	else
