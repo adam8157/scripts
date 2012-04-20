@@ -8,7 +8,7 @@ then
 	echo "Usage: $name timezone"
 	echo
 else
-	args=$@
+	args="$@"
 fi
 
 for i in $args
