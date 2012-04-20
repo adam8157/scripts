@@ -8,22 +8,22 @@ SENDMAIL=/usr/bin/msmtp
 TMPFILE=`mktemp -t check-attach.XXXXXXXX` || exit 2
 
 # Define test for multipart message
-multipart () {
+multipart() {
 	grep -q '^Content-Type: multipart' "$TMPFILE"
 }
 
 # Header to override this check
-override () {
+override() {
 	grep -i -E "^X-attached: none$" "$TMPFILE"
 }
 
 # Define test for keyword search
-attach () {
+attach() {
 	grep -v '^>' "$TMPFILE" | grep -E -i -q 'attach|patch|附件'
 }
 
 # Query function to pass message
-ask () {
+ask() {
 	if [ ! -z "$DISPLAY" ] && [ -x "/usr/bin/zenity" ]
 	then
 		zenity --question --title 'mutt' --text 'Attachment missed?'
