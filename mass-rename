@@ -32,6 +32,10 @@ fi
 if [ "$FLAG" = "write" ]
 then
 	TEMP_DIR=`mktemp -d .tmp.XXXXXXXX` || exit 1
+else
+	echo
+	echo "Just preview, use -f to make it effective"
+	echo
 fi
 
 for orig in `ls -S -r`
