@@ -2,7 +2,7 @@
 
 lock=/tmp/mutt-filter_lock
 
-if [[ "$1" =~ "All Mail" && "$1" =~ "New:" ]]
+if [[ "$1" =~ "INBOX" && "$1" =~ "New:" ]]
 then
 	if [ -f "$lock" ]
 	then
