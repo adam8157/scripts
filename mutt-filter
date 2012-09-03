@@ -8,7 +8,7 @@ then
 	then
 		printf "\ekmutt: new\e\\" > /dev/tty
 	else
-		notify-launch "Get new mails"
+		notify-send "Get new mails"
 		printf "\ekmutt: new\e\\" > /dev/tty
 		touch $lock
 	fi
