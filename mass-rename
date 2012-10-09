@@ -38,6 +38,7 @@ else
 	echo
 fi
 
+IFS=$'\n'
 for orig in `ls -S -r`
 do
 	if [ ! -f "$orig" ]
