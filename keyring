@@ -10,7 +10,7 @@ fi
 
 if [[ "$1" =~ "-vv" ]]
 then
-	echo -n "$SALT" |sha512sum |cut -c 1-32
+	echo -n "$SALT" |sha512sum |cut -c 1-32 |tee >(xsel -i -p -l /dev/null)
 else
 	echo -n "$SALT" |sha512sum |cut -c 1-32 |xsel -i -p -l /dev/null
 fi
