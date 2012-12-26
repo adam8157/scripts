@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DESTDIR="${HOME}/Videos/Flash"
+DESTDIR="${HOME}/videos/flash"
 
 if [ ! -d "$DESTDIR" ]
 then

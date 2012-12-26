@@ -5,7 +5,7 @@ stamp=$(date +'%y%m%d-%H%M%S')
 for args in "$@"
 do
 	name=$(basename "$args")
-	mv -f "$args" ~/Trash/"$name"-"$stamp"
+	mv -f "$args" ~/trash/"$name"-"$stamp"
 done
 
 exit 0

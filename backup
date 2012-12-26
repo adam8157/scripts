@@ -1,7 +1,7 @@
 #!/bin/bash
 
 name=$(basename "$0")
-dir="${HOME}/Dropbox/Backup"
+dir="${HOME}/dropbox/backup"
 file=backup-$(date +%y%m%d).tar.7z
 
 while getopts ":d:f" arg
@@ -37,7 +37,9 @@ then
 	fi
 fi
 
-tar cf - -C ~ Scripts -C ~/Backup Dotfiles Firefox -C ~/Documents \
-	Tips | 7z a -p -si $dir/$file
+tar cf - -C ~ scripts \
+	-C ~/documents tips \
+	-C ~/backup dotfiles firefox \
+	| 7z a -p -si $dir/$file
 
 exit 0
