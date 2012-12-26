@@ -38,8 +38,8 @@ then
 fi
 
 tar cf - -C ~ scripts \
-	-C ~/documents tips \
-	-C ~/backup dotfiles firefox \
+	-C ~/backup firefox \
+	-C ~/documents dotfiles tips \
 	| 7z a -p -si $dir/$file
 
 exit 0
