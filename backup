@@ -37,9 +37,7 @@ then
 	fi
 fi
 
-tar cf - -C ~ scripts \
-	-C ~/backup firefox \
-	-C ~/documents dotfiles tips \
+tar cf - -C ~ scripts -C ~/backup firefox -C ~/documents dotfiles \
 	| 7z a -p -si $dir/$file
 
 exit 0
