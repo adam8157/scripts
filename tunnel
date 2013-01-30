@@ -16,6 +16,13 @@ then
 		exit 1
 	else
 		ssh -CfNqT -D 1080 ${user}@${host} -p $port
+
+		if [ "$?" != "0" ]
+		then
+			echo Failed to turn on tunnel.
+			exit 1
+		fi
+
 		echo Tunnel is turned on.
 	fi
 elif [[ "$#" = "1" && "$1" = "off" ]]
