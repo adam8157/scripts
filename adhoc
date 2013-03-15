@@ -24,10 +24,10 @@ then
 		sudo ifconfig $wlan 192.168.10.1 up
 
 		#forwards the ad hoc network to the router
-		sudo iptables -A FORWARD -i $wlan -o $eth -s 192.168.10.0/24 -m \
-			state --state NEW -j ACCEPT
-		sudo iptables -A FORWARD -m \
-			state --state ESTABLISHED,RELATED -j ACCEPT
+		sudo iptables -A FORWARD -i $wlan -o $eth -s 192.168.10.0/24 \
+			-m conntrack --ctstate NEW -j ACCEPT
+		sudo iptables -A FORWARD \
+			-m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 		sudo iptables -A POSTROUTING -t nat -j MASQUERADE
 		sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
 
@@ -54,10 +54,10 @@ then
 		sudo iwconfig $wlan essid any
 
 		#delete added iptables rules
-		sudo iptables -D FORWARD -i $wlan -o $eth -s 192.168.10.0/24 -m \
-			state --state NEW -j ACCEPT
-		sudo iptables -D FORWARD -m \
-			state --state ESTABLISHED,RELATED -j ACCEPT
+		sudo iptables -D FORWARD -i $wlan -o $eth -s 192.168.10.0/24 \
+			-m conntrack --ctstate NEW -j ACCEPT
+		sudo iptables -D FORWARD \
+			-m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 		sudo iptables -D POSTROUTING -t nat -j MASQUERADE
 		sudo sh -c "echo 0 > /proc/sys/net/ipv4/ip_forward"
 
