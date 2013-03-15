@@ -34,12 +34,6 @@ then
 		#start the dhcp server
 		sudo /etc/init.d/isc-dhcp-server start
 
-		if [ "$?" != "0" ]
-		then
-			echo Failed to turn on adhoc network.
-			exit 1
-		fi
-
 		sudo touch $lock
 		echo Adhoc network is turned on.
 	fi
