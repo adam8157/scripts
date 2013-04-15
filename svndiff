@@ -9,7 +9,7 @@ then
 	exit 1
 fi
 
-# Subversion provides the paths we need as the sixth and seventh 
+# Subversion provides the paths we need as the sixth and seventh
 # parameters.
 LEFT=${6}
 RIGHT=${7}
