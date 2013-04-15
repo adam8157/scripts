@@ -1,0 +1,14 @@
+#!/bin/bash
+
+INTERNAL="LVDS1"
+EXTERNAL="DP1"
+
+if xrandr -q | grep "$INTERNAL" | grep "+" > /dev/null
+then
+	xrandr -q | grep "$EXTERNAL connected" > /dev/null && \
+		xrandr --output $INTERNAL --off --output $EXTERNAL --auto
+else
+	xrandr --output $EXTERNAL --off --output $INTERNAL --auto
+fi
+
+exit 0
