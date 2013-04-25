@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#[ -d .offlineimap/log ] || mkdir .offlineimap; touch .offlineimap/log
+
 while true
 do
 	# Is offlineimap ok?
