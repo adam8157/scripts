@@ -33,6 +33,11 @@ do
 			tar xvJf "$fname";;
 		*.tar.7z | *.t7z)
 			7z x -so "$fname" | tar xf -;;
+		*.zip)
+			LANG=C 7z x "$fname"
+			fenc=$(find ./ -type f |enca -L zh -i)
+			[ "$?" = "0" ] && [ "$fenc" != "ASCII" ] && \
+				eval convmv -f $fenc -t UTF-8 --notest -r *;;
 		*.deb)
 			ar x "$fname";;
 		*)
