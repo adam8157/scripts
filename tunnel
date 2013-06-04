@@ -6,16 +6,17 @@
 source .hostinfo &> /dev/null || { echo "Please set the hostinfo."; exit 1; }
 
 name=$(basename "$0")
-lock=$(pgrep -xf "ssh -CfNqT -D 1080 ${user}@${host} -p $port")
+tunnel_cmd="ssh -CfNqT -D 1080 ${user}@${host} -p $port"
+tunnel_lock=$(pgrep -xf "$tunnel_cmd")
 
 if [[ "$#" = "1" && "$1" = "on" ]]
 then
-	if [ -n "$lock" ]
+	if [ -n "$tunnel_lock" ]
 	then
 		echo Tunnel is already on.
 		exit 1
 	else
-		ssh -CfNqT -D 1080 ${user}@${host} -p $port
+		eval $tunnel_cmd
 
 		if [ "$?" != "0" ]
 		then
@@ -27,9 +28,9 @@ then
 	fi
 elif [[ "$#" = "1" && "$1" = "off" ]]
 then
-	if [ -n "$lock" ]
+	if [ -n "$tunnel_lock" ]
 	then
-		kill $lock
+		kill $tunnel_lock
 		echo Tunnel is turned off.
 	else
 		echo Tunnel is already off.
