@@ -8,7 +8,8 @@ ARCH="amd64"
 for HEADER in `dpkg --get-selections | grep ^linux-image \
 	| grep -v "linux-image-${ARCH}" | awk -F "-" '{print $3"-"$4}'`
 do
-	if [ "$CURRENT" \< "$HEADER" ]
+	NEWER=$(echo -e "${CURRENT}\n${HEADER}" |sort -Vr |head -n 1)
+	if [ "$CURRENT" != "$NEWER" ]
 	then
 		echo "Running kernel is not the newest. $CURRENT < $HEADER"
 		exit 1
@@ -29,7 +30,7 @@ PACKAGES="$IMAGES $HEADERS"
 
 if [ -z "$IMAGES" ]
 then
-	echo "There is no old kernel or headers need to be cleaned."
+	echo "No older kernel or headers package."
 	exit 1
 fi
 
@@ -39,7 +40,7 @@ echo "$IMAGES $HEADERS $MODULES"
 echo ------------------------------------
 echo 
 
-read -p "Really wanna remove these packages or directories? [y/N] " REPLY
+read -p "Really wanna purge these packages or directories? [y/N] " REPLY
 
 case $REPLY in
 	y | Y)
