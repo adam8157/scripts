@@ -1,18 +1,21 @@
 #!/bin/bash
 
+#SALT=
+source .salt &> /dev/null || { echo "Failed to set salt."; exit 1; }
+
 if [[ "$1" =~ "-v" ]]
 then
-	read -p "Which key? " SALT
+	read -p "Which key? " KEY
 else
-	read -s -p "Which key? " SALT
+	read -s -p "Which key? " KEY
 	echo
 fi
 
 if [[ "$1" =~ "-vv" ]]
 then
-	echo -n "$SALT" |sha512sum |cut -c 1-32 |tee >(xsel -i -p -l /dev/null)
+	echo -n "${KEY}${SALT}" |sha512sum |cut -c 1-32 |tee >(xsel -i -p -l /dev/null)
 else
-	echo -n "$SALT" |sha512sum |cut -c 1-32 |xsel -i -p -l /dev/null
+	echo -n "${KEY}${SALT}" |sha512sum |cut -c 1-32 |xsel -i -p -l /dev/null
 fi
 
 exit 0
