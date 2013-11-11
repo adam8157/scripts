@@ -32,7 +32,7 @@ then
 		sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
 
 		#start the dhcp server
-		sudo /etc/init.d/isc-dhcp-server start
+		sudo systemctl start isc-dhcp-server.service
 
 		sudo touch $lock
 		echo Adhoc network is turned on.
@@ -56,7 +56,7 @@ then
 		sudo sh -c "echo 0 > /proc/sys/net/ipv4/ip_forward"
 
 		#stop the dhcp server
-		sudo /etc/init.d/isc-dhcp-server stop
+		sudo systemctl stop isc-dhcp-server.service
 
 		sudo rm -f $lock
 		echo Adhoc network is turned off.
