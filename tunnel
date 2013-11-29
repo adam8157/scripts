@@ -3,7 +3,7 @@
 #port=
 #user=
 #host=
-source .hostinfo &> /dev/null || { echo "Please set the hostinfo."; exit 1; }
+source .host &> /dev/null || { echo "Please set the host."; exit 1; }
 
 name=$(basename "$0")
 tunnel_cmd="ssh -CfNqT -D 1080 ${user}@${host} -p $port"
