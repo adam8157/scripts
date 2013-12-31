@@ -8,7 +8,7 @@ ARCH="amd64"
 for HEADER in `dpkg --get-selections | grep ^linux-image \
 	| grep -v "linux-image-${ARCH}" | awk -F "-" '{print $3"-"$4}'`
 do
-	NEWER=$(echo -e "${CURRENT}\n${HEADER}" |sort -Vr |head -n 1)
+	NEWER=$(echo -e "${CURRENT}\n${HEADER}" | sort -Vr | head -n 1)
 	if [ "$CURRENT" != "$NEWER" ]
 	then
 		echo "Running kernel is not the newest. $CURRENT < $HEADER"
@@ -46,8 +46,13 @@ case $REPLY in
 	y | Y)
 		for PACKAGE in $PACKAGES
 		do
-			sudo apt-get purge -y $PACKAGE
+			if dpkg -s $PACKAGE | grep "installed"
+			then
+				INSTALLED_PACKAGES="${INSTALLED_PACKAGES} $PACKAGE"
+			fi
 		done
+
+		sudo apt-get purge -y $INSTALLED_PACKAGES
 
 		sudo rm -rvf $MODULES;;
 	*)
