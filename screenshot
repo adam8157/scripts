@@ -1,0 +1,6 @@
+#!/bin/bash
+
+scrot -e "mv \$f ~/pictures/shot/" $* \
+	&& notify-send "Screenshot captured"
+
+exit 0
