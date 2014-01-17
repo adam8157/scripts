@@ -1,0 +1,54 @@
+#!/bin/bash
+
+from=eth0
+to=wlan0
+
+lock=/tmp/net_forward_lock
+name=$(basename "$0")
+
+if [[ "$#" = "1" && "$1" = "on" ]]
+then
+	if [ -f "$lock" ]
+	then
+		echo Network forwarding is already on.
+		exit 1
+	else
+		sudo ifconfig $from 192.168.10.1 up
+
+		sudo iptables -A FORWARD -i $from -o $to -s 192.168.10.0/24 \
+			-m conntrack --ctstate NEW -j ACCEPT
+		sudo iptables -A FORWARD \
+			-m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+		sudo iptables -A POSTROUTING -t nat -j MASQUERADE
+		sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
+
+		sudo systemctl start isc-dhcp-server.service
+
+		sudo touch $lock
+		echo Network forwarding is turned on.
+	fi
+elif [[ "$#" = "1" && "$1" = "off" ]]
+then
+	if [ -f "$lock" ]
+	then
+		sudo iptables -D FORWARD -i $from -o $to -s 192.168.10.0/24 \
+			-m conntrack --ctstate NEW -j ACCEPT
+		sudo iptables -D FORWARD \
+			-m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+		sudo iptables -D POSTROUTING -t nat -j MASQUERADE
+		sudo sh -c "echo 0 > /proc/sys/net/ipv4/ip_forward"
+
+		sudo systemctl stop isc-dhcp-server.service
+
+		sudo rm -f $lock
+		echo Network forwarding is turned off.
+	else
+		echo Network forwarding is already off.
+		exit 1
+	fi
+else
+	echo "Usage: $name on | off"
+	exit 1
+fi
+
+exit 0
