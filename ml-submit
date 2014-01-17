@@ -1,5 +1,0 @@
-#!/bin/bash
-
-echo -e "dllink $*\nq" | nc 127.0.0.1 4000
-
-exit 0
