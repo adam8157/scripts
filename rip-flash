@@ -1,10 +1,26 @@
 #!/bin/bash
 
-DESTDIR="${HOME}/videos/flash"
+DESTDIR=
+NAME=$(basename "$0")
+
+while getopts ":d:" arg
+do
+	case $arg in
+		d)
+			DESTDIR="$OPTARG";;
+		:)
+			echo "Error: -$OPTARG needs an argument"
+			exit 1;;
+		?)
+			echo "Usage: $NAME -d directory"
+			exit 1;;
+	esac
+done
 
 if [ ! -d "$DESTDIR" ]
 then
-	mkdir -p $DESTDIR || exit 1
+	echo "Target directory doesn't exist, use -d to specify."
+	exit 1
 fi
 
 LINES=`lsof |grep '/tmp/Flash[^ ]*'`
@@ -14,9 +30,9 @@ IFS=$'\n'
 for i in $LINES
 do
 	FILE=`echo $i |awk '{print "/proc/" $2 "/fd/" $4}' |sed 's/[rwu]$//'`
-	NAME=`echo $i |awk '{print $9}' |awk -F '/' '{print $3}'`
+	FILENAME=`echo $i |awk '{print $9}' |awk -F '/' '{print $3}'`
 
-	cp -v $FILE ${DESTDIR}/${NAME}.flv
+	cp -v $FILE ${DESTDIR}/${FILENAME}.flv
 done
 
 exit 0
