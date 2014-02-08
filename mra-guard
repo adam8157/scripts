@@ -2,6 +2,16 @@
 
 #[ -d .offlineimap/log ] || mkdir .offlineimap; touch .offlineimap/log
 
+name=$(basename "$0")
+lock=/tmp/${name}_${USER}.pid
+
+if [ -f $lock ] && kill -0 $(cat $lock) &>/dev/null
+then
+	exit 1
+else
+	echo $$ > $lock
+fi
+
 while true
 do
 	# Is offlineimap ok?
