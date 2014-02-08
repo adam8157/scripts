@@ -12,6 +12,9 @@ else
 	echo $$ > $lock
 fi
 
+trap '' SIGHUP
+trap "{ rm -f $lock; exit 1; }" SIGINT SIGTERM EXIT
+
 while true
 do
 	# Is offlineimap ok?
