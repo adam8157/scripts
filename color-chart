@@ -2,7 +2,7 @@
 
 name=$(basename "$0")
 
-if [ "$1" = "-8" ]
+if [ "$1" = "8" ]
 then
 	printf "\n"
 	printf "ANSI 8Color Chart:\n"
@@ -18,7 +18,7 @@ then
 	printf "\E[37m 07:  WHITE   \n"
 	printf "\E[0m"
 	printf "\n"
-elif [ "$1" = "-256" ]
+elif [ "$1" = "256" ]
 then
 	printf "\n"
 	printf "XTERM 256Color Chart:\n"
@@ -268,7 +268,7 @@ then
 	printf "\n"
 else
 	printf "\n"
-	printf "Usage: $name -8 | -256\n"
+	printf "Usage: $name 8 | 256\n"
 	printf "    8: Display ANSI 8Color Chart\n"
 	printf "  256: Display XTERM 256Color Chart\n"
 	printf "\n"
