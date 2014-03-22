@@ -1,22 +1,24 @@
 #!/bin/bash
 
-lock=/tmp/mutt-filter_lock
+title=$1
+status_string=$2
+lock=/tmp/${title}-filter_lock
 
-if [[ "$1" =~ "INBOX" && "$1" =~ "New:" ]]
+if [[ "$status_string" =~ "INBOX" && "$status_string" =~ "New:" ]]
 then
 	if [ -f "$lock" ]
 	then
-		printf "\ekmutt: new\e\\" > /dev/tty
+		printf "\ek${title}: new\e\\" > /dev/tty
 	else
-		notify-send "Get new mails"
-		printf "\ekmutt: new\e\\" > /dev/tty
+		notify-send "${title}: get new mails"
+		printf "\ek${title}: new\e\\" > /dev/tty
 		touch $lock
 	fi
 else
-	printf "\ekmutt\e\\" > /dev/tty
+	printf "\ek${title}\e\\" > /dev/tty
 	rm -f $lock
 fi
 
-echo "$1"
+echo "$status_string"
 
 exit 0
