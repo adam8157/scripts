@@ -44,7 +44,7 @@ do
 			7z x "$fname";;
 	esac
 
-	cd $OLDPWD
+	cd "$OLDPWD"
 done
 
 exit 0
