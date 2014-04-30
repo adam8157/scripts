@@ -28,15 +28,23 @@ done
 
 PACKAGES="$IMAGES $HEADERS"
 
-if [ -z "$IMAGES" ]
+if [ -z "$PACKAGES" ]
 then
 	echo "No older kernel or headers package."
 	exit 1
 fi
 
+for PACKAGE in $PACKAGES
+do
+	if dpkg -s $PACKAGE | grep -q "Status: install ok installed"
+	then
+		INSTALLED_PACKAGES="${INSTALLED_PACKAGES} $PACKAGE"
+	fi
+done
+
 echo
 echo ------------------------------------
-echo "$IMAGES $HEADERS $MODULES"
+echo "$INSTALLED_PACKAGES $MODULES"
 echo ------------------------------------
 echo 
 
@@ -44,14 +52,6 @@ read -p "Really wanna purge these packages or directories? [y/N] " REPLY
 
 case $REPLY in
 	y | Y)
-		for PACKAGE in $PACKAGES
-		do
-			if dpkg -s $PACKAGE | grep "installed"
-			then
-				INSTALLED_PACKAGES="${INSTALLED_PACKAGES} $PACKAGE"
-			fi
-		done
-
 		sudo apt-get purge -y $INSTALLED_PACKAGES
 
 		sudo rm -rvf $MODULES;;
