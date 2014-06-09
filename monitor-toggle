@@ -1,7 +1,9 @@
 #!/bin/bash
 
 INTERNAL="LVDS1"
-EXTERNAL="DP1"
+EXTERNAL=`xrandr -q | grep -v "$INTERNAL" | grep " connected" | cut -d' ' -f1`
+
+[ -z $EXTERNAL ] && exit 0
 
 if xrandr -q | grep "$INTERNAL" | grep "+" > /dev/null
 then
