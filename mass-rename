@@ -1,22 +1,31 @@
 #!/bin/bash
 
 NUM=1
+SORT_CMD="ls"
 NAME=$(basename "$0")
 TOTAL_NUM=`ls -l |grep ^- |wc -l`
 LENGTH=`echo $TOTAL_NUM |awk '{print length($0)}'`
 
-while getopts ":fl:" arg
+USAGE() {
+	echo
+	echo "Usage: $NAME [-f] [-s] [-l length]"
+	echo
+}
+
+while getopts ":fl:s" arg
 do
 	case $arg in
 		f)
 			FLAG="write";;
 		l)
 			LENGTH_OPT="$OPTARG";;
+		s)
+			SORT_CMD="ls -S -r";;
 		:)
 			echo "Error: -$OPTARG needs an argument"
 			exit 1;;
 		?)
-			echo "Usage: $NAME [-f] [-l length]"
+			USAGE
 			exit 1;;
 	esac
 done
@@ -39,7 +48,7 @@ else
 fi
 
 IFS=$'\n'
-for orig in `ls -S -r`
+for orig in `eval $SORT_CMD`
 do
 	if [ ! -f "$orig" ]
 	then
@@ -59,9 +68,7 @@ then
 	mv ${TEMP_DIR}/* ./
 	rmdir $TEMP_DIR
 else
-	echo
-	echo "Usage: $NAME [-f] [-l length]"
-	echo
+	USAGE
 fi
 
 exit 0
