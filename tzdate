@@ -4,7 +4,7 @@ name=$(basename "$0")
 
 if [ -z "$1" ]
 then
-	args="UTC US/Eastern US/Pacific"
+	args="UTC US/Eastern US/Pacific Asia/Shanghai Europe/London"
 	echo "Usage: $name timezone"
 	echo
 else
