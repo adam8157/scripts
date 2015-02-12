@@ -28,9 +28,9 @@ done
 
 PACKAGES="$IMAGES $HEADERS"
 
-if [ -z "$PACKAGES" ]
+if [ "$PACKAGES" = " " ]
 then
-	echo "No older kernel or headers package."
+	echo "No older kernel or headers packages found."
 	exit 1
 fi
 
