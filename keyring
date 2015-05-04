@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SALT=
-source .salt &> /dev/null || { echo "Failed to set salt."; exit 1; }
+#source .salt &> /dev/null || { echo "Failed to set salt."; exit 1; }
 
 if [[ "$1" =~ "-v" ]]
 then
