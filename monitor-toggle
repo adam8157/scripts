@@ -1,7 +1,7 @@
 #!/bin/bash
 
 INTERNAL="LVDS1"
-EXTERNAL=`xrandr -q | grep -v "$INTERNAL" | grep " connected" | cut -d' ' -f1`
+EXTERNAL=`xrandr -q |grep -v "$INTERNAL" |grep " connected" |head -n1 |cut -d' ' -f1`
 
 [ -z $EXTERNAL ] && { xrandr --output $INTERNAL --auto; exit 0; }
 
