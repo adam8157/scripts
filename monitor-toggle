@@ -3,7 +3,7 @@
 INTERNAL="LVDS1"
 EXTERNAL=`xrandr -q | grep -v "$INTERNAL" | grep " connected" | cut -d' ' -f1`
 
-[ -z $EXTERNAL ] && exit 0
+[ -z $EXTERNAL ] && { xrandr --output $INTERNAL --auto; exit 0; }
 
 if xrandr -q | grep "$INTERNAL" | grep "+" > /dev/null
 then
