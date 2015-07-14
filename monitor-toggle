@@ -3,6 +3,9 @@
 INTERNAL="LVDS1"
 EXTERNAL=`xrandr -q |grep -v "$INTERNAL" |grep " connected" |head -n1 |cut -d' ' -f1`
 
+xrandr -q | grep "$INTERNAL connected" > /dev/null || \
+	{ echo "$INTERNAL doesn't exist."; exit 1; }
+
 [ -z $EXTERNAL ] && { xrandr --output $INTERNAL --auto; exit 0; }
 
 if xrandr -q | grep "$INTERNAL" | grep "+" > /dev/null
