@@ -5,7 +5,7 @@
 SENDMAIL=/usr/bin/msmtp
 
 # Save msg in file for multiple tests
-TMPFILE=`mktemp -t check-attach.XXXXXXXX` || exit 2
+TMPFILE=`mktemp -t pre-sendmail.XXXXXXXX` || exit 2
 
 # Define test for multipart message
 multipart() {
@@ -14,12 +14,12 @@ multipart() {
 
 # Header to override this check
 override() {
-	grep -i -E "^X-attached: none$" "$TMPFILE"
+	grep -i -q '^X-attached: none$' "$TMPFILE"
 }
 
 # Define test for keyword search
 attach() {
-	grep -v '^>' "$TMPFILE" | grep -E -i -q 'attach|patch|附件'
+	grep -a -v '^>' "$TMPFILE" | grep -E -i -q 'attach|patch|附件'
 }
 
 # Query function to pass message
