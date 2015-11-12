@@ -24,22 +24,34 @@ attach() {
 
 # Query function to pass message
 ask() {
-	if [ ! -z "$DISPLAY" ] && [ -x "/usr/bin/zenity" ]
-	then
-		zenity --question --title 'mutt' --text 'Attachment missed?'
-	else
-		return 0
-	fi
+	# try to get stdin/stdout/stderr from parent process
+	pid=$$
+	tty=$(ps -o tty= -p $pid)
+
+	while ! [[ $tty = *t* ]]; do  # at least contain a *t* for pts/tty/etc
+		pid=$(ps -o ppid= -p $pid)
+		tty=$(ps -o tty= -p $pid)
+	done
+
+	TTY=/dev/$tty
+
+	# ps -p $pid |grep nonono
+	dialog --defaultno --title "Attachment Missing" \
+		--yesno "Do you still want to send it anyway?" 0 0 < $TTY > $TTY
+
+	RETURN_VALUE=$?
+	clear < $TTY > $TTY
+	return $RETURN_VALUE
 }
 
 cat > "$TMPFILE"
 
-if override || multipart || ! attach || ! ask
+if override || multipart || ! attach || ask
 then
 	$SENDMAIL "$@" < "$TMPFILE"
 	EXIT_STATUS=$?
 else
-	echo "Attachment missed?"
+	echo "Attachment Missing"
 	echo
 	echo "Add your attachment, or add a header \"X-attached: none\" to override this check."
 	EXIT_STATUS=1
