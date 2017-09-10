@@ -25,13 +25,13 @@ do
 	cd "$destdir"
 
 	case "$bname" in
-		*.tar.bz2 | *.tbz2)
+		*.tar.bz2 | *.tarbz2 | *.tbz2)
 			tar xvjf "$fname";;
-		*.tar.gz | *.tgz)
+		*.tar.gz | *.targz | *.tgz)
 			tar xvzf "$fname";;
-		*.tar.xz | *.txz)
+		*.tar.xz | *.tarxz | *.txz)
 			tar xvJf "$fname";;
-		*.tar.7z | *.t7z)
+		*.tar.7z | *.tar7z | *.t7z)
 			7z x -so "$fname" | tar xf -;;
 		*.zip | *.ZIP)
 			LANG=C 7z x "$fname"
