@@ -10,7 +10,7 @@ then
 	then
 		printf "\ek${title}: new\e\\" > /dev/tty
 	else
-		notify-send "${title}: get new mails"
+		terminal-notifier -sound default -title ${title} -message "get new mails"
 		printf "\ek${title}: new\e\\" > /dev/tty
 		touch $lock
 	fi

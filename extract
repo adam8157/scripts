@@ -2,7 +2,7 @@
 
 for args in "$@"
 do
-	fname=$(readlink -f "$args")
+	fname=$(greadlink -f "$args")
 	bname=$(basename "$fname")
 	dest1st=${bname%.*}
 	dest2nd=${dest1st%.*}

@@ -2,7 +2,7 @@
 # Pre sendmail hook, just do attachment check now
 
 # Set MTA
-SENDMAIL=/usr/bin/msmtp
+SENDMAIL=/usr/local/bin/msmtp
 
 # Save msg in file for multiple tests
 TMPFILE=`mktemp -t pre-sendmail.XXXXXXXX` || exit 2
