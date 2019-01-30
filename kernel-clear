@@ -3,25 +3,25 @@
 CURRENT="`uname -r | awk -F"-" '{print $1"-"$2}'`"
 HEADERS=""
 IMAGES=""
-ARCH="amd64"
 
-for HEADER in `dpkg --get-selections | grep ^linux-image \
-	| grep -v "linux-image-${ARCH}" | awk -F "-" '{print $3"-"$4}'`
+for RELEASE in `dpkg --get-selections | grep ^linux-image-[0-9] | awk -F "-" '{print $3"-"$4}'`
 do
-	NEWER=$(echo -e "${CURRENT}\n${HEADER}" | sort -Vr | head -n 1)
-	if [ "$CURRENT" != "$NEWER" ]
+	LATER=$(echo -e "${CURRENT}\n${RELEASE}" | sort -Vr | head -n 1)
+	if [ "$CURRENT" != "$LATER" ]
 	then
-		echo "Running kernel is not the newest. $CURRENT < $HEADER"
+		echo "Running kernel is not the latest. $CURRENT < $LATER"
 		exit 1
 	else
-		if [ "$CURRENT" != "$HEADER" ]
+		if [ "$RELEASE" != "$CURRENT" ]
 		then
 			IMAGE="`dpkg --get-selections | grep ^linux-image \
-				| grep "${HEADER}" | awk '{print $1}'`"
+				| grep "${RELEASE}" | awk '{print $1}'`"
 			IMAGES="${IMAGES} $IMAGE"
-			HEADERS="${HEADERS} linux-headers-${HEADER}-common"
-			HEADERS="${HEADERS} linux-headers-${HEADER}-${ARCH}"
-			MODULES="${MODULES} /lib/modules/${HEADER}-${ARCH}"
+			HEADER="`dpkg --get-selections | grep ^linux-headers \
+				| grep "${RELEASE}" | awk '{print $1}'`"
+			HEADERS="${HEADERS} $HEADER"
+			MODULE="`ls -1 /lib/modules/ |grep ^${RELEASE}`"
+			MODULES="${MODULES} /lib/modules/${MODULE}"
 		fi
 	fi
 done
@@ -36,7 +36,7 @@ fi
 
 for PACKAGE in $PACKAGES
 do
-	if dpkg -s $PACKAGE | grep -q "Status: install ok installed"
+	if dpkg -s $PACKAGE 2>&1 | grep -q "Status: install ok installed"
 	then
 		INSTALLED_PACKAGES="${INSTALLED_PACKAGES} $PACKAGE"
 	fi
@@ -48,7 +48,7 @@ echo "$INSTALLED_PACKAGES $MODULES"
 echo ------------------------------------
 echo 
 
-read -p "Really wanna purge these packages or directories? [y/N] " REPLY
+read -p "Really wanna purge these packages and directories? [y/N] " REPLY
 
 case $REPLY in
 	y | Y)
