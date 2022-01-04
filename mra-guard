@@ -38,7 +38,7 @@ do
 
 		EOF
 
-		nohup offlineimap &>> ~/.offlineimap/log &
+		nohup offlineimap >> ~/.offlineimap/log 2>&1 &
 	fi
 
 	sleep 120
